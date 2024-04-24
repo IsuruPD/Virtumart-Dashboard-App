@@ -10,6 +10,8 @@ export default function AddProducts() {
     const categoryRef = useRef();
     const descriptionRef = useRef();
     const sizeRef = useRef();
+    const priceRef = useRef();
+    const offerPercentageRef = useRef();
     const [currentColor, setCurrentColor] = useState("#ffffff");
     const [selectedColors, setSelectedColors] = useState(""); // Initialize as empty string
     const [imageUploads, setImageUploads] = useState([]);
@@ -65,6 +67,8 @@ export default function AddProducts() {
             size: sizeRef.current.value.split(",").map(size => size.trim()),
             colors: selectedColors.split(", ").map(color => color.trim()),
             imageURLs: imageURLs,
+            price: parseFloat(priceRef.current.value),
+            offerPercentage: parseFloat(offerPercentageRef.current.value)
         };
     
         try {
@@ -77,7 +81,7 @@ export default function AddProducts() {
     
     return (
         <div>
-            <div>Products Add Page</div>
+            <div id="centerTitle">Products Add Page</div>
             <div>
                 <form onSubmit={handleSubmit}>
                     <table>
@@ -98,6 +102,23 @@ export default function AddProducts() {
                                     id="category" 
                                     ref={categoryRef} 
                                     required 
+                                /></td>
+                            </tr>
+                            <tr>
+                                <td><label >Price :</label></td>
+                                <td><input 
+                                    type="text" 
+                                    id="price" 
+                                    ref={priceRef} 
+                                    required 
+                                /></td>
+                            </tr>
+                            <tr>
+                                <td><label >Offer Percentage :</label></td>
+                                <td><input 
+                                    type="text" 
+                                    id="offerPercentage" 
+                                    ref={offerPercentageRef}                                      
                                 /></td>
                             </tr>
                             <tr>

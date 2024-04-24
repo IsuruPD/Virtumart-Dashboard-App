@@ -1,0 +1,85 @@
+.navBar{
+    height: 50px;
+    border-bottom: 0.5px solid rgb(231, 228,228);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+
+    .wrapper{
+        width: 100%;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: white;
+
+        .search{
+            padding-top: 12px;
+            display: flex;
+            align-items: center;
+            border-bottom: 0.5px solid #e4bdea95;
+
+            input{
+                border: none;
+                outline: none;
+                background: transparent;
+                height: 30px;
+                width: 300px;
+
+                &::placeholder{
+                    font-size: 15px;
+                }
+                // &:active{
+                //     border-bottom: 1px solid #e4bdea95;
+                // }
+            }
+
+            #searchIcon{
+                border: none;
+            }
+        }
+
+        .items{
+            padding-top: 6px;
+            display: flex;
+            
+            .item{
+                display: flex;
+                align-items: center;
+                margin-right: 25px;
+                position: relative;
+
+                .navBarIcon{
+                    margin-right: 2px;
+                }
+
+                #chatIcon{
+                    font-size: 22px;
+                }
+
+                .avatar{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                }
+
+                .counter{
+                    width: 15px;
+                    height: 15px;
+                    background-color: red;
+                    border-radius: 100%;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 8px;
+                    font-weight: bold;
+                    position: absolute;
+                    top: -3px;
+                    right: -10px;
+                }
+            }
+        }
+    }
+}
