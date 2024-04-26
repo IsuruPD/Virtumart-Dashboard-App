@@ -14,7 +14,7 @@
         justify-content: space-between;
         background-color: white;
 
-        .search{
+        .empty{
             padding-top: 12px;
             display: flex;
             align-items: center;
@@ -54,9 +54,9 @@
                     margin-right: 2px;
                 }
 
-                #chatIcon{
-                    font-size: 22px;
-                }
+                // #chatIcon{
+                //     font-size: 22px;
+                // }
 
                 .avatar{
                     width: 30px;

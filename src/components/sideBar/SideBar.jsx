@@ -13,12 +13,14 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { Link } from 'react-router-dom';
+import LogoImage from '../../assets/logoBg.png';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 const SideBar = () => {
   return (
     <div class="sideBar">
         <div className="top">
+            {/* <img src={LogoImage} alt="Logo" className="logoImage" /> */}
             <Link to="/" style={{textDecoration: "none" }}>
                 <span className="logo">VirtuMart</span>
             </Link>
@@ -27,7 +29,7 @@ const SideBar = () => {
         <div className="center">
             <ul>
 
-                
+
                 <p className="title">Main</p>
                 <Link to="/" style={{textDecoration: "none" }}>
                     <li> <DashboardIcon className="sideBarIcon"/> <span>Dashboard</span></li>

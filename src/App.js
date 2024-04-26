@@ -8,7 +8,8 @@ import{ BrowserRouter, Routes, Route} from "react-router-dom";
 import { userInputs, productInputs } from './formSource';
 import ProductManagement from './pages/products/ProductManagement';
 import CustomerManagement from './pages/customers/CustomerManagement';
-import StaffManagement from './pages/staff/StaffManagement';
+import StaffDetails from './pages/staff/StaffDetails';
+import StaffManagement from './pages/staff/staffManagement/StaffManagement';
 import AccountsManagement from './pages/accounts/AccountsManagement';
 import OrderManagement from './pages/orders/OrderManagement';
 import CustomerSupport from './pages/support/CustomerSupport';
@@ -30,9 +31,9 @@ function App() {
               </Route>
               
               <Route path="staff">
-                <Route index element={<StaffManagement/>}/>
-                <Route path=":productId" element={<SingleItem/>}/>
-                <Route path="new" element={<NewItem inputs={productInputs} title="Add New Employee"/>}/>
+                <Route index element={<StaffDetails/>}/>
+                <Route path=":staffId" element={<SingleItem/>}/>
+                <Route path="manage/:isNew" element={<StaffManagement/>}/>
               </Route>
 
               <Route path="products">
@@ -43,19 +44,19 @@ function App() {
 
               <Route path="orders">
                 <Route index element={<OrderManagement/>}/>
-                <Route path=":productId" element={<SingleItem/>}/>
+                <Route path=":orderId" element={<SingleItem/>}/>
                 <Route path="new" element={<NewItem inputs={productInputs} title="Add New Order"/>}/>
               </Route>
 
               <Route path="support">
                 <Route index element={<CustomerSupport/>}/>
-                <Route path=":productId" element={<SingleItem/>}/>
+                <Route path=":customerId" element={<SingleItem/>}/>
                 <Route path="new" element={<NewItem inputs={productInputs} title="Add New Support"/>}/>
               </Route>
 
               <Route path="accounts">
                 <Route index element={<AccountsManagement/>}/>
-                <Route path=":productId" element={<SingleItem/>}/>
+                <Route path="account" element={<SingleItem/>}/>
                 <Route path="new" element={<NewItem inputs={productInputs} title="Add New Accounts"/>}/>
               </Route>
             </Route>
