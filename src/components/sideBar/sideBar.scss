@@ -3,7 +3,7 @@
     border-right: 0.5px solid rgb(230, 227, 227);
     min-height: 100vh;
     background-color: white;
-
+    
 
     .top{
         background-color: blueviolet;
@@ -63,24 +63,24 @@
             }
         }
     }
-    .bottom{
-        display: flex;
-        align-items: center;
-        margin: 10px;
+    // .bottom{
+    //     display: flex;
+    //     align-items: center;
+    //     margin: 10px;
         
-        .colorOptions{
-            width : 25px;
-            height: 25px;
-            margin: 5px;
-            border: 1px solid #7451f8;
-            border-radius: 5px;
+    //     .colorOptions{
+    //         width : 25px;
+    //         height: 25px;
+    //         margin: 5px;
+    //         border: 1px solid #7451f8;
+    //         border-radius: 5px;
 
-            &:nth-child(1){
-                background-color:whitesmoke;
-            }
-            &:nth-child(2){
-                background-color:#333;
-            }
-        }
-    }
+    //         &:nth-child(1){
+    //             background-color:whitesmoke;
+    //         }
+    //         &:nth-child(2){
+    //             background-color:#333;
+    //         }
+    //     }
+    // }
 }

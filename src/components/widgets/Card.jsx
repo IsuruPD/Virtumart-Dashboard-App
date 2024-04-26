@@ -39,14 +39,6 @@ const Card = ({type}) => {
                 icon: <PaymentsIcon className="cardIcon"/>
             };
             break; 
-        case "balance":
-            data={
-                title: "Balance",
-                isMoney: true,
-                link: "Go to Balance Management",
-                icon: <PaymentsIcon className="cardIcon"/>
-            };
-            break; 
         case "employees":
             data={
                 title: "Employees",
