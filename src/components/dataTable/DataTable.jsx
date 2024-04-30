@@ -27,7 +27,7 @@ const Datatable = () => {
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
-              Delete
+              Disable
             </div>
           </div>
         ); 

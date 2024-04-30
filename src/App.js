@@ -7,12 +7,13 @@ import SingleItem from './pages/singleItem/SingleItem';
 import{ BrowserRouter, Routes, Route} from "react-router-dom";
 import { userInputs, productInputs } from './formSource';
 import ProductManagement from './pages/products/ProductManagement';
-import CustomerManagement from './pages/customers/CustomerManagement';
+import CustomerDetails from './pages/customers/CustomerDetails';
 import StaffDetails from './pages/staff/StaffDetails';
 import StaffManagement from './pages/staff/staffManagement/StaffManagement';
 import AccountsManagement from './pages/accounts/AccountsManagement';
 import OrderManagement from './pages/orders/OrderManagement';
 import CustomerSupport from './pages/support/CustomerSupport';
+import CustomerManagement from './pages/customers/customerManagement/CustomerManagement';
 
 function App() {
   return (
@@ -25,15 +26,15 @@ function App() {
               <Route path="login" element={<Login/>}/>
 
               <Route path="users">
-                <Route index element={<CustomerManagement/>}/>
-                <Route path=":userId" element={<SingleItem/>}/>
-                {/* <Route path="new" element={<NewItem inputs={userInputs} title="Add New User"/>}/> */}
+                <Route index element={<CustomerDetails/>}/>
+                {/* <Route path=":userId" element={<SingleItem/>}/> */}
+                <Route path="manage/:userId/" element={<CustomerManagement/>}/>
               </Route>
               
               <Route path="staff">
                 <Route index element={<StaffDetails/>}/>
-                <Route path=":staffId" element={<SingleItem/>}/>
-                <Route path="manage/:isNew" element={<StaffManagement/>}/>
+                {/* <Route path=":staffId" element={<SingleItem/>}/> */}
+                <Route path="manage/:isNew/:employeeId/" element={<StaffManagement/>}/>
               </Route>
 
               <Route path="products">

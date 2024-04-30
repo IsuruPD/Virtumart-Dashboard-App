@@ -1,12 +1,13 @@
-.customerManagement{
+.customerDetails{
     display: flex;
 
-    .customerManagementContainer{
+    .customerDetailsContainer{
         flex: 6;
+        overflow-x: hidden;
 
-        .customerManagementTitle{
-            width: 100%;
-            font-size: 24px;
+        .customerDetailsTitle{
+            margin-left: 20px;
+            font-size: 28px;
             color: gray;
             margin-bottom: 10px;
             display: flex;
@@ -25,4 +26,11 @@
             }
         }
     }
+    .sideBar{
+        .center{
+            .usersItem{
+                background-color: rgb(220, 212, 255);
+            }
+        }
+      }
 } 

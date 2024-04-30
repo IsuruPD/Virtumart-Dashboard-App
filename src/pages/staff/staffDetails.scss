@@ -1,10 +1,14 @@
 .staffDetails {
     display: flex;
+    width: 100%;
   
     .staffDetailsContainer {
       flex: 6;
+      overflow-x: hidden;
+      //overflow-y: hidden;
       
       td{
+        vertical-align: top;
         max-width: 300px;
         min-width: 300px;
       }
@@ -18,27 +22,27 @@
         align-items: center;
         justify-content: space-between;
   
-        .link {
-          text-decoration: none;
-          color: green;
-          font-size: 16px;
-          font-weight: 400;
-          border: 1px solid green;
-          padding: 5px;
-          border-radius: 5px;
-          cursor: pointer;
-          margin-top: 20px;
-          margin-right: 10px;
+        // .link {
+        //   text-decoration: none;
+        //   color: green;
+        //   font-size: 16px;
+        //   font-weight: 400;
+        //   border: 1px solid green;
+        //   padding: 5px;
+        //   border-radius: 5px;
+        //   cursor: pointer;
+        //   margin-top: 20px;
+        //   margin-right: 10px;
 
-          &:hover{
-            background-color: green;
-            color: white;
-            border-color: 1px solid white;
-          }
-          &:active{
-            background-color: rgb(1, 80, 1);
-          }
-        }
+        //   &:hover{
+        //     background-color: green;
+        //     color: white;
+        //     border-color: 1px solid white;
+        //   }
+        //   &:active{
+        //     background-color: rgb(1, 80, 1);
+        //   }
+        // }
       }
   
       .singleStaff {
@@ -49,7 +53,6 @@
   
         .singleItemContainer {
           width: 100%;
-          max-width: 800px;
           padding: 20px;
           display: flex;
           flex-direction: column;
@@ -66,22 +69,35 @@
               padding: 20px;
               border-radius: 10px;
   
-              .editButton {
-                position: absolute;
-                top: 0;
-                right: 0;
-                padding: 10px 25px;
-                font-size: 16px;
-                color: #7451f8;
-                background-color: #7551f818;
-                cursor: pointer;
-                border-radius: 0px 0px 0px 5px;
+              .editButtonContainer{
+                  .link{
+                    text-decoration: none;
 
-                .link{
-                  text-decoration: none;
+                    .editButton {
+                      position: absolute;
+                      top: 0;
+                      right: 0;
+                      padding: 10px 25px;
+                      font-size: 16px;
+                      color: #7451f8;
+                      background-color: #7551f818;
+                      cursor: pointer;
+                      border-radius: 0px 0px 0px 5px;
+                      text-decoration: none;
+    
+                      &:hover{
+                        color: #555;
+                        background-color: #7551f8;
+                      }
+                      &:active{
+                        color: #404040;
+                        background-color: #5c30f9;
+                      }
+    
+                  }
                 }
               }
-  
+              
               .item {
                 display: flex;
                 gap: 20px;
@@ -138,6 +154,14 @@
             }
           }
         }
+      }
+    }
+
+    .sideBar{
+      .center{
+          .staffItem{
+              background-color: rgb(220, 212, 255);
+          }
       }
     }
   }

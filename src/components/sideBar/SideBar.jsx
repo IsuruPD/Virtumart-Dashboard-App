@@ -32,46 +32,46 @@ const SideBar = () => {
 
                 <p className="title">Main</p>
                 <Link to="/" style={{textDecoration: "none" }}>
-                    <li> <DashboardIcon className="sideBarIcon"/> <span>Dashboard</span></li>
+                    <li className="dashboardItem"> <DashboardIcon className="sideBarIcon"/> <span>Dashboard</span></li>
                 </Link>
 
 
                 <p className="title">Manage</p>
                 <Link to="/users" style={{textDecoration: "none" }}>
-                    <li> <PeopleAltIcon className="sideBarIcon"/> <span> Users</span></li>
+                    <li className="usersItem"> <PeopleAltIcon className="sideBarIcon"/> <span> Users</span></li>
                 </Link>
                 <Link to="/staff" style={{textDecoration: "none" }}>
-                    <li> <BadgeIcon className="sideBarIcon"/> <span> Staff</span></li>
+                    <li className="staffItem"> <BadgeIcon className="sideBarIcon"/> <span> Staff</span></li>
                 </Link>
                 <Link to="/products" style={{textDecoration: "none" }}>
-                    <li> <InventoryIcon className="sideBarIcon"/> <span>Products</span></li>
+                    <li className="productsItem"> <InventoryIcon className="sideBarIcon"/> <span>Products</span></li>
                 </Link>
                 <Link to="/orders" style={{textDecoration: "none" }}>
-                    <li> <StoreIcon className="sideBarIcon"/> <span>Orders</span></li>
+                    <li className="ordersItem"> <StoreIcon className="sideBarIcon"/> <span>Orders</span></li>
                 </Link>
                 <Link to="/support" style={{textDecoration: "none" }}>
-                    <li> <SupportAgentIcon className="sideBarIcon"/> <span>Customer Support</span></li>
+                    <li className="supportItem"> <SupportAgentIcon className="sideBarIcon"/> <span>Customer Support</span></li>
                 </Link>
                 <Link to="/accounts" style={{textDecoration: "none" }}>
-                    <li> <PaymentsIcon className="sideBarIcon"/> <span>Accounts</span></li>
+                    <li className="accountsItem"> <PaymentsIcon className="sideBarIcon"/> <span>Accounts</span></li>
                 </Link>
 
 
                 <p className="title">System</p>
                 <Link to="/" style={{textDecoration: "none" }}>
-                    <li> <NotificationsIcon className="sideBarIcon"/> <span>Notifications</span></li>
+                    <li className="notificationsItem"> <NotificationsIcon className="sideBarIcon"/> <span>Notifications</span></li>
                 </Link>
                 <Link to="/" style={{textDecoration: "none" }}>
-                    <li> <SettingsIcon className="sideBarIcon"/> <span>Settings</span></li>
+                    <li className="settingsItem"> <SettingsIcon className="sideBarIcon"/> <span>Settings</span></li>
                 </Link>
 
 
                 <p className="title">User</p>
                 <Link to="/" style={{textDecoration: "none" }}>
-                    <li> <PersonIcon className="sideBarIcon"/> <span>Profile</span></li>
+                    <li className="profileItem"> <PersonIcon className="sideBarIcon"/> <span>Profile</span></li>
                 </Link>
                 <Link to="/" style={{textDecoration: "none" }}>
-                    <li> <LogoutIcon className="sideBarIcon"/> <span>Logout</span></li>
+                    <li className="logoutItem"> <LogoutIcon className="sideBarIcon"/> <span>Logout</span></li>
                 </Link>
             </ul>
         </div>
