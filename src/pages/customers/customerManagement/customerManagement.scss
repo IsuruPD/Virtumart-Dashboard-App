@@ -1,14 +1,22 @@
+// I need to make changes to its SCSS code given below in order to prevent any element from exceeding the width of the screen. 
+//I have put a side bar to the left of the screen with flex 1 and all the content inside Customer Management should fit to the right with flex 6 and should not exceed the width of the screen.
+
 .customerManagement {
     display: flex;
-  
+    width: 100vw; // Set width to 100% of viewport width
+    overflow-x: hidden;
+
     .customerManagementContainer {
       flex: 6;
-      
-      td{
+      max-width: 100%;
+      flex-direction: column;
+      overflow-x: hidden; 
+  
+      td {
         max-width: 300px;
         min-width: 300px;
       }
-
+  
       .customerManagementTitle {
         margin-left: 20px;
         font-size: 28px;
@@ -17,229 +25,257 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
       }
 
-      .userProfile{
-        width: 100%;
+      .tableUserOrders{
+        display:flex;
+      }
+  
+      .userProfile {
+        flex: 1;
         display: flex;
-        
+        overflow-x: hidden;
+    
+    
         .newContainer {
-            flex: 6;
-        
-            .top,
-            .bottom {
+          flex: 6;
+  
+          .top,
+          .bottom {
+            width: 100%;
             -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
             box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
             padding: 10px;
             margin: 20px;
             display: flex;
-        
+  
             h1 {
-                color: lightgray;
-                font-size: 20px;
+              color: lightgray;
+              font-size: 20px;
             }
-        
+  
             .left {
-                flex: 1;
-                text-align: center;
-        
-                img {
-                    width: 300px;
-                    height: 300px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
+              flex: 1;
+              text-align: center;
+  
+              img {
+                width: 100%;
+                height: auto; // Maintain aspect ratio
+                border-radius: 50%;
+                object-fit: cover;
+              }
             }
-        
+  
             .right {
-                flex: 2;
-        
-                form {
+              flex: 2;
+  
+              form {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 30px;
                 justify-content: space-around;
-        
+  
                 .formInput {
-                    width: 40%;
-        
-                    label {
+                  width: 40%;
+  
+                  label {
                     display: flex;
                     align-items: center;
                     gap: 10px;
-        
+  
                     .icon {
-                        cursor: pointer;
+                      cursor: pointer;
                     }
-                    }
-        
-                    input {
+                  }
+  
+                  input {
                     width: 100%;
                     padding: 5px;
                     border: none;
                     border-bottom: 1px solid gray;
-                    }
+                  }
                 }
-        
+  
                 button {
-                    width: 150px;
-                    padding: 10px;
-                    border: none;
-                    background-color: teal;
-                    color: white;
-                    font-weight: bold;
-                    cursor: pointer;
-                    margin-top: 10px;
+                  width: 150px;
+                  padding: 10px;
+                  border: none;
+                  background-color: teal;
+                  color: white;
+                  font-weight: bold;
+                  cursor: pointer;
+                  margin-top: 10px;
                 }
-                }
+              }
             }
-            }
+          }
         }
-
+  
         .singleItemContainer {
-            width: 100%;
-            padding: 20px;
+          width: 100%;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          overflow-x: hidden; 
+  
+          .selectedUserTitle {
+            -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            padding: 10px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            
-            .selectedUserTitle{
-                -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-                padding: 10px;
-                display: flex;
-
-                h1 {
-                    color: lightgray;
-                    font-size: 20px;
-                }
+  
+            h1 {
+              color: lightgray;
+              font-size: 20px;
             }
-
-            .top {
+          }
+  
+          .top {
             display: flex;
             gap: 20px;
-    
+            -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            overflow-x: hidden;
+  
             .left {
-                flex: 1;
-                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-                position: relative;
-                padding: 20px;
-                border-radius: 10px;
-    
-                .editButtonContainer{
-                    .link{
+              flex: 1;
+              box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+              position: relative;
+              padding: 20px;
+              border-radius: 10px;
+  
+              .editButtonContainer {
+                .link {
+                  text-decoration: none;
+  
+                  .editButton {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    padding: 10px 25px;
+                    font-size: 16px;
+                    color: #7451f8;
+                    background-color: #7551f818;
+                    cursor: pointer;
+                    border-radius: 0px 0px 0px 5px;
                     text-decoration: none;
-
-                    .editButton {
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        padding: 10px 25px;
-                        font-size: 16px;
-                        color: #7451f8;
-                        background-color: #7551f818;
-                        cursor: pointer;
-                        border-radius: 0px 0px 0px 5px;
-                        text-decoration: none;
-    
-                        &:hover{
-                        color: #555;
-                        background-color: #7551f8;
-                        }
-                        &:active{
-                        color: #404040;
-                        background-color: #5c30f9;
-                        }
-    
+  
+                    &:hover {
+                      color: #555;
+                      background-color: #7551f8;
                     }
+                    &:active {
+                      color: #404040;
+                      background-color: #5c30f9;
+                    }
+                  }
                 }
-                }
-                
-                .item {
+              }
+  
+              .item {
                 display: flex;
                 gap: 20px;
-    
+  
                 .itemImg {
-                    width: 100px;
-                    height: 100px;
-                    border-radius: 50%;
-                    object-fit: cover;
+                  width: 100px;
+                  height: 100px;
+                  border-radius: 50%;
+                  object-fit: cover;
                 }
-    
+  
                 .details {
-                    .itemTitle {
+                  .itemTitle {
                     margin-bottom: 10px;
                     color: #555;
-                    }
-    
-                    .detailItem {
+                  }
+  
+                  .detailItem {
                     margin-bottom: 10px;
                     font-size: 14px;
-    
+  
                     .itemKey {
-                        font-weight: bold;
-                        color: gray;
-                        margin-right: 5px;
+                      font-weight: bold;
+                      color: gray;
+                      margin-right: 5px;
                     }
-    
+  
                     .itemValue {
-                        font-weight: 300;
+                      font-weight: 300;
                     }
-                    }
+                  }
                 }
-                }
+              }
             }
+          }
+  
+          .middle {
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: hidden;
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            padding: 20px;
+            border-radius: 10px;
+  
+            .tableTitle {
+              font-size: 20px;
+              color: gray;
+              margin-bottom: 10px;
             }
-
-            .middle{
-                display: flex;
-                gap: 20px;
-                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-                position: relative;
-                padding: 20px;
-                border-radius: 10px;
+  
+            .tableUserOrders {
+              width: 100%;
             }
-
-            .bottom{
-                display: flex;
-                gap: 20px;
-                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-                position: relative;
-                padding: 20px;
-                border-radius: 10px;
+            
+  
+            .itemImg {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
+              vertical-align: middle;
+              margin-right: 10px;
             }
-    
-            .cardHeader {
+          }
+  
+          .bottom {
+            display: flex;
+            gap: 20px;
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            position: relative;
+            padding: 20px;
+            border-radius: 10px;
+          }
+  
+          .cardHeader {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 20px;
-    
+  
             .cardIcon {
-                padding: 0px;
-                font-size: 20px;
-                margin-right: 1px;
-                color: #737373;
+              padding: 0px;
+              font-size: 20px;
+              margin-right: 1px;
+              color: #737373;
             }
-    
+  
             .title {
-                font-size: 18px;
-                color: #737373;
-                margin-bottom: 0;
+              font-size: 18px;
+              color: #737373;
+              margin-bottom: 0;
             }
-            }
-        }         
-    }
-    
-
-    }
-
-    .sideBar{
-        .center{
-            .customerItem{
-                background-color: rgb(220, 212, 255);
-            }
+          }
         }
+
+        .middle,
+        .bottom {
+          max-width: 100%; 
+          overflow-x: hidden; 
+        }
+
+      }
     }
   }
   

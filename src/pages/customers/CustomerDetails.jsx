@@ -123,9 +123,6 @@ const CustomerDetails = () => {
           <div className="datatable">
             <div className="datatableTitle">
               User Records
-              {/* <Link to="/users/manage/new/create" className="link">
-                Add New
-              </Link> */}
             </div>
             <DataGrid
               className="datagrid"

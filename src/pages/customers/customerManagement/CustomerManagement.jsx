@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './customerManagement.scss';
-import { collection, doc, getDoc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc } from 'firebase/firestore';
 import { auth, storage, firestore } from '../../../firebase';
 import SideBar from '../../../components/sideBar/SideBar';
 import NavBar from '../../../components/navBar/NavBar';
@@ -28,64 +28,65 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 const CustomerManagement = () => {
   const { userId } = useParams(); 
   const [user, setUser] = useState(null);
+  const [orders, setOrders] = useState([]);
 
   // If existing
   useEffect(() => {
-    console.log(userId);
     const fetchUser = async () => {
       try {
         const userDocRef = doc(firestore, 'user', userId);
         const userDocSnap = await getDoc(userDocRef);
-  
+
         if (userDocSnap.exists()) {
-          // If employee exists, set the data
+          // If user exists, set the data
           setUser({ id: userDocSnap.id, ...userDocSnap.data() });
+
+          // Fetch orders for the user
+          const ordersQuery = query(
+            collection(firestore, 'orders', userId, 'user_orders')
+          );
+          const ordersSnapshot = await getDocs(ordersQuery);
+
+          const fetchedOrders = [];
+          ordersSnapshot.forEach((doc) => {
+            fetchedOrders.push({ orderId: doc.id, ...doc.data() });
+          });
+
+          setOrders(fetchedOrders);
         } else {
-          //console.error(`Employee with ID ${employeeId} not found`);
+          console.error(`User with ID ${userId} not found`);
         }
       } catch (error) {
         console.error('Error fetching user:', error);
       }
     };
-  
-    fetchUser(); // Fetch employee data on component mount
-  }, [userId]); // Re-fetch employee data if employeeId changes
+
+    fetchUser(); // Fetch user data and orders on component mount
+  }, [userId]);
 ////////////////////
 
 
 /////////////////////
-  
-  function createData(orderId, orderDate, orderTotal, orderStatus) {
-    return {
-      orderId,
-      orderDate,
-      orderTotal,
-      orderStatus,
-      orderItems: [
-        {
-          itemId: '0001SKU',
-          itemName: 'Refridgerator',
-          quantity: 3,
-          itemPrice: 100,
-        },
-        {
-          itemId: '0002SKU',
-          itemName: 'Television',
-          quantity: 1,
-          itemPrice: 200,
-        },
-      ],
-    };
+
+  function getColorFromInteger(colorInteger){
+    console.log('#' + colorInteger.toString(16).padStart(6, '0'));
+    const alpha = (colorInteger >> 24) & 0xFF;
+    const red = (colorInteger >> 16) & 0xFF;
+    const green = (colorInteger >> 8) & 0xFF;
+    const blue = colorInteger & 0xFF;
+
+  return `rgb(${red}, ${green}, ${blue})`;
   }
   
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
-  
+
     return (
       <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
           <TableCell>
+
             <IconButton
               aria-label="expand row"
               size="small"
@@ -93,54 +94,74 @@ const CustomerManagement = () => {
             >
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
+
           </TableCell>
-          <TableCell component="th" scope="row">
-            {row.orderId}
-          </TableCell>
+          <TableCell component="th" scope="row">{row.orderId}</TableCell>
           <TableCell align="right">{row.orderDate}</TableCell>
-          <TableCell align="right">{row.orderTotal}</TableCell>
+          <TableCell align="left" style={{paddingLeft:100}}>
+            
+            {row.shippingAddress.receiverName},<br/> 
+            {row.shippingAddress.addressAlias},&nbsp;{row.shippingAddress.address},&nbsp;
+            {row.shippingAddress.city},&nbsp;{row.shippingAddress.district}<br/>
+            {row.shippingAddress.contact}</TableCell>
+          <TableCell style={{fontWeight:'bold'}}  align="right">{row.orderTotal}</TableCell>
           <TableCell align="right">{row.orderStatus}</TableCell>
+
         </TableRow>
         <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                  <Box sx={{ margin: 1 }}>
-                  <Typography variant="h6" gutterBottom component="div">
-                      Invoice
-                  </Typography>
-  
-                  <Table size="small" aria-label="purchases">
-                          <TableHead>
-                              <TableRow>
-                                  <TableCell>Item ID</TableCell>
-                                  <TableCell>Item Name</TableCell>
-                                  <TableCell align="right">Quantity</TableCell>
-                                  <TableCell align="right">Total price ($)</TableCell>
-                              </TableRow>
-                          </TableHead>
-                          
-                          <TableBody>
-                              {row.orderItems.map((orderItemsRow) => (
-                                  <TableRow key={orderItemsRow.itemId}>
-                                      <TableCell component="th" scope="row">
-                                          {orderItemsRow.itemId}
-                                      </TableCell>
-                                      <TableCell>
-                                          {orderItemsRow.itemName}
-                                      </TableCell>
-                                      <TableCell align="right">
-                                          {orderItemsRow.quantity}
-                                      </TableCell>
-                                      <TableCell align="right">
-                                          {Math.round(orderItemsRow.quantity * orderItemsRow.itemPrice * 100) / 100}
-                                      </TableCell>
-                                  </TableRow>
-                              ))}
-                          </TableBody>
-                  </Table>
-                  </Box>
-            </Collapse>
-          </TableCell>
+
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <Box sx={{ margin: 1 }}>
+                        
+                        <Typography variant="h6" gutterBottom component="div">
+                        Invoice
+                        </Typography>
+
+                        <Table size="small" aria-label="purchases">
+
+                        <TableHead>
+                            <TableRow>
+                            <TableCell>Item ID</TableCell>
+                            <TableCell>Item Name</TableCell>
+                            <TableCell align="right">Specification</TableCell>
+                            <TableCell align="right">Quantity</TableCell>
+                            <TableCell align="right">Sub Total (Rs.)</TableCell>
+                            </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                            {row.orderItems.map((orderItem) => (
+                            <TableRow key={orderItem.productId}>
+                                <TableCell component="th" scope="row">
+                                  {orderItem.product.productId}
+                                </TableCell>
+                                <TableCell><img src={orderItem.product.imageURLs[0]}  alt="Item Image" className="itemImg" />
+                                    {orderItem.product.productName}</TableCell>
+                                <TableCell align="right" style={{ verticalAlign: 'middle', alignItems: 'center' }}>
+      
+      <div style={{
+          width: '20px',
+          height: '20px',
+          borderRadius: '50%',
+          backgroundColor: getColorFromInteger(orderItem.selectedColor),
+          display: 'flex', // Adjust spacing between elements
+        }}>
+          <span style={{
+            marginLeft: '350px'
+          }}>{orderItem.selectedSize}</span>
+          </div>
+    </TableCell>
+                                <TableCell align="right">{orderItem.quantity}</TableCell>
+                                <TableCell align="right">{Math.round(orderItem.quantity * orderItem.product.price * (1-orderItem.product.offerPercentage))}</TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                        </Table>
+                    </Box>
+                </Collapse>
+            </TableCell>
+
         </TableRow>
       </React.Fragment>
     );
@@ -149,32 +170,40 @@ const CustomerManagement = () => {
   Row.propTypes = {
     row: PropTypes.shape({
       
-      orderId: PropTypes.string.isRequired,
-      orderDate: PropTypes.number.isRequired,
+      orderId: PropTypes.number.isRequired,
+      orderDate: PropTypes.string.isRequired,
       orderTotal: PropTypes.number.isRequired,
-      orderStatus: PropTypes.number.isRequired,
-      orderItems: PropTypes.arrayOf(
+      orderStatus: PropTypes.string.isRequired,
+
+      orderItems: PropTypes.arrayOf( 
         PropTypes.shape({
-          quantity: PropTypes.number.isRequired,
-          itemName: PropTypes.string.isRequired,
-          itemId: PropTypes.string.isRequired,
+            product: PropTypes.shape({
+                productId: PropTypes.string.isRequired,
+                productName: PropTypes.string.isRequired,
+                price: PropTypes.number.isRequired,
+                offerPercentage: PropTypes.number.isRequired,
+                imageURLs: PropTypes.array.isRequired,
+              }).isRequired,
+            quantity: PropTypes.number.isRequired,
+            selectedColor: PropTypes.number.isRequired,
+            selectedSize: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+
+      shippingAddress: PropTypes.arrayOf( 
+        PropTypes.shape({
+            receiverName: PropTypes.string.isRequired,
+            address: PropTypes.string.isRequired,
+            shippingAlias: PropTypes.string.isRequired,
+            city: PropTypes.string.isRequired,
+            district: PropTypes.string.isRequired,
+            contact: PropTypes.string.isRequired,
         }),
       ).isRequired,
     }).isRequired,
   };
-  
-  const rows = [
-    createData('Order_ID001', '2024-01-01', 99999, 'Ordered'),
-    createData('Order_ID002', '2024-01-01', 88999, 'Ordered'),
-    createData('Order_ID003', '2024-01-01', 14999, 'Delivered'),
-    createData('Order_ID004', '2024-01-01', 75999, 'Completed'),
-    createData('Order_ID005', '2024-01-01', 199999, 'Cancelled'),
-  ];
 /////////////////////
 
-
-
-  
 
   return (
     <div className="customerManagement">
@@ -276,6 +305,10 @@ const CustomerManagement = () => {
                     </div>
 
                     <div className='middle'>
+                      <div className='tableTitle'>
+                        Past Orders
+                      </div>
+                      <div className='tableUserOrders'>
                         <TableContainer component={Paper}>
                             <Table aria-label="collapsible table">
                                 <TableHead>
@@ -283,17 +316,19 @@ const CustomerManagement = () => {
                                     <TableCell />
                                     <TableCell>Order ID</TableCell>
                                     <TableCell align="right">Date</TableCell>
-                                    <TableCell align="right">Total ($)</TableCell>
+                                    <TableCell align="left" style={{paddingLeft:100}}>Shipping Address</TableCell>
+                                    <TableCell style={{fontWeight:'bold'}}  align="right">Total (Rs.)</TableCell>
                                     <TableCell align="right">Status</TableCell>
                                 </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {rows.map((row) => (
-                                    <Row key={row.orderId} row={row} />
+                                {orders.map((order) => (
+                                    <Row key={order.orderId} row={order} />
                                 ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                      </div>
                     </div>
 
                     <div className='bottom'>
