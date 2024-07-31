@@ -104,7 +104,7 @@ const CustomerManagement = () => {
             {row.shippingAddress.addressAlias},&nbsp;{row.shippingAddress.address},&nbsp;
             {row.shippingAddress.city},&nbsp;{row.shippingAddress.district}<br/>
             {row.shippingAddress.contact}</TableCell>
-          <TableCell style={{fontWeight:'bold'}}  align="right">{row.orderTotal}</TableCell>
+          <TableCell style={{fontWeight:'bold'}}  align="right">{(row.orderTotal).toFixed(2)}</TableCell>
           <TableCell align="right">{row.orderStatus}</TableCell>
 
         </TableRow>
@@ -136,24 +136,30 @@ const CustomerManagement = () => {
                                 <TableCell component="th" scope="row">
                                   {orderItem.product.productId}
                                 </TableCell>
-                                <TableCell><img src={orderItem.product.imageURLs[0]}  alt="Item Image" className="itemImg" />
-                                    {orderItem.product.productName}</TableCell>
+                                <TableCell>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div>
+                                      <img src={orderItem.product.imageURLs[0]} alt="Item Image" className="itemImg" />
+                                    </div>
+                                    <div>{orderItem.product.productName}</div>
+                                  </div>
+                                </TableCell>
                                 <TableCell align="right" style={{ verticalAlign: 'middle', alignItems: 'center' }}>
-      
-      <div style={{
-          width: '20px',
-          height: '20px',
-          borderRadius: '50%',
-          backgroundColor: getColorFromInteger(orderItem.selectedColor),
-          display: 'flex', // Adjust spacing between elements
-        }}>
-          <span style={{
-            marginLeft: '350px'
-          }}>{orderItem.selectedSize}</span>
-          </div>
-    </TableCell>
+                                  <div style={{
+                                      width: '20px',
+                                      height: '20px',
+                                      border: '1px solid black',
+                                      borderRadius: '50%',
+                                      backgroundColor: getColorFromInteger(orderItem.selectedColor),
+                                      display: 'flex', // Adjust spacing between elements
+                                    }}>
+                                      <span style={{
+                                        marginLeft: '350px'
+                                      }}>{orderItem.selectedSize}</span>
+                                      </div>
+                                </TableCell>
                                 <TableCell align="right">{orderItem.quantity}</TableCell>
-                                <TableCell align="right">{Math.round(orderItem.quantity * orderItem.product.price * (1-orderItem.product.offerPercentage))}</TableCell>
+                                <TableCell align="right">{(orderItem.quantity * orderItem.product.price * (1-orderItem.product.offerPercentage)).toFixed(2)}</TableCell>
                             </TableRow>
                             ))}
                         </TableBody>
