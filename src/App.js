@@ -6,7 +6,10 @@ import NewItem from './pages/new/NewItem';
 import SingleItem from './pages/singleItem/SingleItem';
 import{ BrowserRouter, Routes, Route} from "react-router-dom";
 import { userInputs, productInputs } from './formSource';
-import ProductManagement from './pages/products/ProductManagement';
+import ProductDetails from './pages/products/productDetails';
+import ProductDisplay from './pages/products/productDisplay/ProductDisplay';
+import ProductManagement from './pages/products/productManagement/ProductManagement';
+import ProductCategories from './pages/products/productCategories/ProductCategories';
 import CustomerDetails from './pages/customers/CustomerDetails';
 import StaffDetails from './pages/staff/StaffDetails';
 import StaffManagement from './pages/staff/staffManagement/StaffManagement';
@@ -38,9 +41,10 @@ function App() {
               </Route>
 
               <Route path="products">
-                <Route index element={<ProductManagement/>}/>
-                <Route path=":productId" element={<SingleItem/>}/>
-                <Route path="new" element={<NewItem inputs={productInputs} title="Add New Product"/>}/>
+                <Route index element={<ProductDetails/>}/>
+                <Route path="manage/" element={<ProductDisplay/>}/>
+                <Route path="manage/:isNew/:productId/" element={<ProductManagement/>}/>
+                <Route path="manage/categories" element={<ProductCategories />} />
               </Route>
 
               <Route path="orders">

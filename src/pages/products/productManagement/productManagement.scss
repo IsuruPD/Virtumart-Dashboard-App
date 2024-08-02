@@ -1,0 +1,145 @@
+.productManagement {
+    display: flex;
+  
+    .productManagementContainer {
+      flex: 6;
+      
+      td{
+        max-width: 300px;
+        min-width: 300px;
+      }
+
+      .productManagementTitle {
+        margin-left: 20px;
+        font-size: 28px;
+        color: gray;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .newProductItem{
+        max-width: fit-content;
+        width: 100%;
+        display: flex;
+        
+        .newContainer {
+            flex: 6;
+        
+            .top,
+            .bottom {
+            -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            padding: 10px;
+            margin: 20px;
+            display: flex;
+        
+            h1 {
+                color: lightgray;
+                font-size: 20px;
+            }
+        
+            .left {
+              flex: 1;
+              text-align: center;
+            
+              .slick-slider {
+                border: 20px transparent solid;
+                max-width: 400px;
+                max-height: 800px;
+            
+                img {
+                  width: 100%;
+                  height: auto;
+                }
+              }
+            
+              .singleImage {
+                max-width: 400px;
+                max-height: 800px;
+                width: 100%;
+                height: auto;
+              }
+            }
+            
+        
+            .right {
+                flex: 2;
+        
+                form {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 30px;
+                    justify-content: space-around;
+            
+                    .formInput {
+                        width: 40%;
+            
+                        label {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+            
+                        .icon {
+                            cursor: pointer;
+                        }
+                        }
+            
+                        input {
+                        width: 100%;
+                        padding: 5px;
+                        border: none;
+                        border-bottom: 1px solid gray;
+                        }
+                    }
+            
+                    button {
+                        width: 150px;
+                        padding: 10px;
+                        border: none;
+                        background-color: teal;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                        margin-top: 10px;
+                    }
+                }
+            }
+
+            .descriptionTextArea {
+                min-height: 300px;
+                max-height: 500px; 
+                min-width: 300px;  
+                max-width: 600px;  
+                width: 100%; 
+                resize: vertical; 
+              }
+            
+            .checkboxGroup {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+              
+                label {
+                  display: flex;
+                  align-items: center;
+                  font-size: 16px;
+              
+                  input[type="checkbox"] {
+                    margin-left: 10px;
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                  }
+                }
+            }   
+
+            }
+        }
+    }
+    
+
+    }
+  }
+  
