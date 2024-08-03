@@ -77,9 +77,9 @@
                         width: 40%;
             
                         label {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
+                          display: flex;
+                          align-items: center;
+                          gap: 10px;
             
                         .icon {
                             cursor: pointer;
@@ -87,10 +87,25 @@
                         }
             
                         input {
-                        width: 100%;
-                        padding: 5px;
-                        border: none;
-                        border-bottom: 1px solid gray;
+                          width: 100%;
+                          padding: 5px;
+                          border: none;
+                          border-bottom: 1px solid gray;
+                          transition: border-color 0.3s, box-shadow 0.3s;
+
+                          &:focus {
+                            border-color: teal;
+                            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+                          }
+                        }
+
+                        textarea{
+                          transition: border-color 0.3s, box-shadow 0.3s;
+
+                          &:focus {
+                            border-color: teal;
+                            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+                          }
                         }
                     }
             
@@ -103,7 +118,41 @@
                         font-weight: bold;
                         cursor: pointer;
                         margin-top: 10px;
+
+                        &:hover{
+                          background-color: rgb(0, 110, 110);
+                        }
                     }
+
+                    .btnDelete{
+                      background-color: red;
+
+                      &:hover{
+                        background-color: rgb(218, 2, 2);
+                      }
+                    }
+                }
+
+                select {
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                  background-color: #fff;
+                  font-size: 16px;
+                  color: #333;
+                  outline: none;
+                  transition: border-color 0.3s, box-shadow 0.3s;
+                
+                  &:focus {
+                    border-color: teal;
+                    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                  }
+                }
+                
+                select:disabled {
+                  background-color: #f9f9f9;
+                  color: #999;
                 }
             }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './productDisplay.scss';
 import SideBar from '../../../components/sideBar/SideBar';
 import NavBar from '../../../components/navBar/NavBar';
-import DeleteConfirmationDialog from '../../../components/dialogBoxes/deleteConfimationDialog/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '../../../components/dialogBoxes/deleteConfirmationDialog/DeleteConfirmationDialog';
 import { Link } from 'react-router-dom';
 import BadgeIcon from '@mui/icons-material/ShoppingCart';
 import '../../../components/dataTable/dataTable.scss';

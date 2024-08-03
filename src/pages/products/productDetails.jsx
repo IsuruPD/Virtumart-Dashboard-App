@@ -21,7 +21,7 @@ const productDetails = () => {
 
         <div>
             <div className="optionsCards">
-                <Link to="/products/manage/new">
+                <Link to="/products/manage/new/create">
                     <div className="card" id="addProduct"> 
                         <div className="cardContent">
                             <h3>Add New Product</h3>
