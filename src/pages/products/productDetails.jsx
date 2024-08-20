@@ -13,10 +13,7 @@ const productDetails = () => {
       <div className="productDetailsContainer">
         <NavBar />
         <div className="productDetailsTitle">
-          Products Management
-          {/* <Link to="/products/manage/new" className="link">
-            Add New
-          </Link> */}
+          Product Management
         </div>
 
         <div>
@@ -35,7 +32,7 @@ const productDetails = () => {
                             </div>
                     </div>
                 </Link>
-                <Link to="/products/manageCategories">
+                <Link to="/products/manage/categories">
                     <div className="card" id="manageCategories">
                         <div className="cardContent">
                             <h3>Manage Categories</h3>

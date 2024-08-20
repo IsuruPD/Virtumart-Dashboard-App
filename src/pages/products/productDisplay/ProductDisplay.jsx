@@ -151,7 +151,7 @@ const ProductDisplay = () => {
       <SideBar />
       <div className="productDetailsContainer">
         <NavBar />
-        <div className="productDetailsTitle">Products Management</div>
+        <div className="productDetailsTitle">Product Management</div>
 
         <div className="singleProduct">
           {selectedProduct && (

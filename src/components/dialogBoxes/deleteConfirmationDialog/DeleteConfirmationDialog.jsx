@@ -8,7 +8,7 @@ const DeleteConfirmationDialog = ({ open, onClose, onConfirm }) => {
   return (
     <div className="deleteConfirmationDialog">
       <div className="deleteConfirmationDialogContent">
-        <h3>Are you sure you want to delete this product?</h3>
+        <h3>Are you sure you want to delete this?</h3>
         <div className="deleteConfirmationDialogActions">
           <button onClick={onClose}>Cancel</button>
           <button onClick={onConfirm}>Confirm</button>
