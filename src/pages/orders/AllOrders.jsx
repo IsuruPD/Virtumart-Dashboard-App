@@ -9,7 +9,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 import { Link } from 'react-router-dom';
 
-const OrderManagement = () => {
+const AllOrders = () => {
 
   const [orders, setOrders] = useState([]);
   const [orderedCount, setOrderedCount] = useState(0);
@@ -157,29 +157,10 @@ const OrderManagement = () => {
             </div>
           </div>
 
-          <div className="orderManagementCards">
-            <div className="card">
-              <h3>Pending Orders</h3>
-              <p>{orderedCount}</p>
-              <Link to="/orders">View</Link>
-            </div>
-
-            <div className="card">
-              <h3>Cancellations</h3>
-              <p>{cancelledCount}</p>
-              <Link to="/cancellations">View</Link>
-            </div>
-
-            <div className="card">
-              <h3>Order Disputes</h3>
-              <p>{disputeCount}</p>
-              <Link to="/disputes">View</Link>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default OrderManagement;
+export default AllOrders;

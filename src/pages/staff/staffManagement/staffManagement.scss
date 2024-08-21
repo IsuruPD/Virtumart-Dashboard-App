@@ -1,5 +1,14 @@
 .staffManagement {
     display: flex;
+
+    .sideBar{
+        .center{
+            .staffItem{
+                background-color: rgb(220, 212, 255);
+            }
+        }
+        
+    }
   
     .staffManagementContainer {
       flex: 6;

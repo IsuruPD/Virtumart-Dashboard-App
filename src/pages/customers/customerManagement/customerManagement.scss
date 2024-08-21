@@ -8,6 +8,15 @@ I have put a side bar to the left of the screen with flex 1 and all the content 
     width: 100vw; // Set width to 100% of viewport width
     overflow-x: hidden;
 
+    .sideBar{
+      .center{
+          .usersItem{
+              background-color: rgb(220, 212, 255);
+          }
+      }
+      
+  }
+
     .customerManagementContainer {
       flex: 6;
       max-width: 100%;

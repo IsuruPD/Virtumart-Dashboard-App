@@ -1,5 +1,14 @@
 .productManagement {
     display: flex;
+
+    .sideBar{
+      .center{
+          .productsItem{
+              background-color: rgb(220, 212, 255);
+          }
+      }
+      
+  }
   
     .productManagementContainer {
       flex: 6;

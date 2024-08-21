@@ -15,6 +15,7 @@ import StaffDetails from './pages/staff/StaffDetails';
 import StaffManagement from './pages/staff/staffManagement/StaffManagement';
 import AccountsManagement from './pages/accounts/AccountsManagement';
 import OrderManagement from './pages/orders/OrderManagement';
+import AllOrders from './pages/orders/AllOrders';
 import CustomerSupport from './pages/support/CustomerSupport';
 import CustomerManagement from './pages/customers/customerManagement/CustomerManagement';
 
@@ -49,8 +50,9 @@ function App() {
 
               <Route path="orders">
                 <Route index element={<OrderManagement/>}/>
-                <Route path=":orderId" element={<SingleItem/>}/>
-                <Route path="new" element={<NewItem inputs={productInputs} title="Add New Order"/>}/>
+                <Route path="all/" element={<AllOrders />} />
+                {/* <Route path=":orderId" element={<SingleItem/>}/> */}
+                {/* <Route path="new" element={<NewItem inputs={productInputs} title="Add New Order"/>}/> */}
               </Route>
 
               <Route path="support">
