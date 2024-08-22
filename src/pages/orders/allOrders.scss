@@ -40,52 +40,94 @@
       .orderManagementContent {
         display: flex;
         gap: 20px;
+
+        
+        
   
         .orderManagementDatagrid {
           flex: 1;
           max-width: 100%;
-        }
-  
-        .orderManagementCards {
-          flex: 1;
-          padding-right: 10px;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-  
-          .card {
-            background-color: #f4f4f4;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          
+          .filterContainer {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 150px;
-  
-            h3 {
-              margin-bottom: 10px;
-              font-size: 18px;
-              font-weight: bold;
-            }
-  
-            p {
-              font-size: 24px;
-              margin-bottom: auto;
-            }
-  
-            a {
-              color: #007bff;
-              text-decoration: none;
-              margin-top: 10px;
-              align-self: flex-end;
-            }
-  
-            a:hover {
-              text-decoration: underline;
-            }
+            gap: 20px;
+            margin-left: 20px;
+            margin-bottom: 20px;
+          }
+          
+          .filterContainer .MuiTextField-root {
+            width: 200px;
+          }
+          
+          .filterContainer .MuiButton-root {
+            height: 56px;
           }
         }
+  
+        .middle {
+          padding: 20px;
+          border-radius: 10px;
+          overflow-x: hidden;
+          box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+          padding: 20px;
+          border-radius: 10px;
+
+          .tableTitle {
+            font-size: 20px;
+            color: gray;
+            margin-bottom: 10px;
+          }
+
+          .tableUserOrders {
+            width: 100%;
+          }
+          
+
+          .itemImg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+        }
+
+        .bottom {
+          display: flex;
+          gap: 20px;
+          box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+          position: relative;
+          padding: 20px;
+          border-radius: 10px;
+        }
+
+        .cardHeader {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 20px;
+
+          .cardIcon {
+            padding: 0px;
+            font-size: 20px;
+            margin-right: 1px;
+            color: #737373;
+          }
+
+          .title {
+            font-size: 18px;
+            color: #737373;
+            margin-bottom: 0;
+          }
+        }
+
+        .middle,
+        .bottom {
+          max-width: 100%; 
+          overflow-x: hidden; 
+        }
+
       }
     }
   }
