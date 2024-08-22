@@ -5,7 +5,7 @@ import NavBar from '../../components/navBar/NavBar';
 import "./../../components/dataTable/dataTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, orderBy, startAfter, limit, startAt } from 'firebase/firestore';
 import { auth, storage, firestore } from '../../firebase';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -37,17 +37,41 @@ const AllOrders = () => {
   const [endDate, setEndDate] = useState("");
   const [minTotal, setMinTotal] = useState("");
   const [maxTotal, setMaxTotal] = useState("");
+  const [activeTab, setActiveTab] = useState("allOrders");
+
+  // Code for pagination feature
+  // const [lastVisible, setLastVisible] = useState(null);
+  // const [firstVisible, setFirstVisible] = useState(null);
+  // const [isFirstPage, setIsFirstPage] = useState(true);
+  // const [isLastPage, setIsLastPage] = useState(false);
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  //const ORDERS_PER_PAGE = 100;
+
+  useEffect(() => {
+    fetchOrders();
+  }, [activeTab]);
 
   const fetchOrders = async () => {
     try {
       const usersSnapshot = await getDocs(collection(firestore, 'user'));
       let allOrders = [];
-  
+
       for (const userDoc of usersSnapshot.docs) {
         const uid = userDoc.id;
         const userOrdersRef = collection(firestore, 'orders', uid, 'user_orders');
-        const userOrdersSnapshot = await getDocs(userOrdersRef);
-  
+        let ordersQuery = userOrdersRef;
+
+        // Filter orders based on the active tab
+        if (activeTab === "pendingOrders") {
+          ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Ordered"));
+        } else if (activeTab === "shippedOrders") {
+          ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Shipped"));
+        } else if (activeTab === "completedOrders") {
+          ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Complete"));
+        }
+
+        const userOrdersSnapshot = await getDocs(ordersQuery);
         userOrdersSnapshot.forEach((userOrderDoc) => {
           const data = userOrderDoc.data();
           allOrders.push({
@@ -56,16 +80,169 @@ const AllOrders = () => {
           });
         });
       }
-  
+
       setOrders(allOrders);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
   
+  // For paging change the two function comments 
+  // const fetchOrders = async (direction = 'next') => {
+  //   try {
+  //     const usersSnapshot = await getDocs(collection(firestore, 'user'));
+  //     let allOrders = [];
+  //     let querySnapshot;
+
+  //     for (const userDoc of usersSnapshot.docs) {
+  //       const uid = userDoc.id;
+  //       const userOrdersRef = collection(firestore, 'orders', uid, 'user_orders');
+
+  //       let ordersQuery;
+
+  //       if (direction === 'next') {
+  //         ordersQuery = lastVisible 
+  //           ? query(userOrdersRef, orderBy('orderDate', 'desc'), startAfter(lastVisible), limit(ORDERS_PER_PAGE))
+  //           : query(userOrdersRef, orderBy('orderDate', 'desc'), limit(ORDERS_PER_PAGE));
+  //       } else if (direction === 'prev') {
+  //         ordersQuery = query(userOrdersRef, orderBy('orderDate', 'desc'), startAt(firstVisible), limit(ORDERS_PER_PAGE));
+  //       }
+
+  //       querySnapshot = await getDocs(ordersQuery);
+
+  //       if (!querySnapshot.empty) {
+  //         querySnapshot.forEach((userOrderDoc) => {
+  //           const data = userOrderDoc.data();
+  //           allOrders.push({
+  //             orderId: userOrderDoc.id,
+  //             ...data,
+  //           });
+  //         });
+
+  //         // Update pagination state
+  //         if (direction === 'next') {
+  //           setFirstVisible(querySnapshot.docs[0]);
+  //           setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+  //         } else if (direction === 'prev') {
+  //           setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+  //           setFirstVisible(querySnapshot.docs[0]);
+  //         }
+
+  //         // Update current page
+  //         setCurrentPage((prevPage) => direction === 'next' ? prevPage + 1 : Math.max(prevPage - 1, 1));
+  //         setIsFirstPage(direction === 'next' ? false : currentPage === 1);
+  //         setIsLastPage(querySnapshot.docs.length < ORDERS_PER_PAGE);
+  //       }
+  //     }
+
+  //     setOrders(allOrders);
+  //   } catch (error) {
+  //     console.error("Error fetching orders:", error);
+  //   }
+  // };
+
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  const renderTabContent = () => {
+
+    return(
+      <div>
+        <div className="filterContainer">
+              <TextField
+                label="Search"
+                variant="outlined"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <TextField
+                label="Start Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+              <TextField
+                label="End Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+              <TextField
+                label="Min Total"
+                type="number"
+                value={minTotal}
+                onChange={(e) => setMinTotal(e.target.value)}
+              />
+              <TextField
+                label="Max Total"
+                type="number"
+                value={maxTotal}
+                onChange={(e) => setMaxTotal(e.target.value)}
+              />
+              <Button variant="contained" color="primary" className='applyFiltersButton' onClick={() => setOrders(filteredOrders)}>
+                Apply
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={handleResetFilters}>
+                Reset
+              </Button>
+            </div>
+
+            <div className="datatable">
+              <div className="datatableTitle">
+                All Orders
+              </div>
+              <div className='middle'>
+                <div className='tableUserOrders'>
+                  <TableContainer component={Paper}>
+                      <Table aria-label="collapsible table">
+                          <TableHead>
+                          <TableRow>
+                              <TableCell />
+                              <TableCell>Order ID</TableCell>
+                              <TableCell align="right">Date</TableCell>
+                              <TableCell align="left" style={{paddingLeft:100}}>Shipping Address</TableCell>
+                              <TableCell style={{fontWeight:'bold'}}  align="right">Total (Rs.)</TableCell>
+                              <TableCell align="right">Status</TableCell>
+                          </TableRow>
+                          </TableHead>
+                          <TableBody>
+                          {orders.map((order) => (
+                              <Row key={order.orderId} row={order} />
+                          ))}
+                          </TableBody>
+                      </Table>
+                  </TableContainer>
+                </div>
+            </div>
+
+              <div className="paginationControls">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className='navButtons'
+                  // onClick={() => fetchOrders('prev')}
+                  // disabled={isFirstPage}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className='navButtons'
+                  // onClick={() => fetchOrders('next')}
+                  // disabled={isLastPage}
+                >
+                  Next
+                </Button>
+                {/* <Typography variant="body1">Page: {currentPage}</Typography> */}
+              </div>
+            </div>
+      </div>
+    );    
+  };
 
   function getColorFromInteger(colorInteger){
     console.log('#' + colorInteger.toString(16).padStart(6, '0'));
@@ -217,7 +394,10 @@ const AllOrders = () => {
     const matchesSearchText =
       order.orderId.toString().includes(searchText) ||
       order.shippingAddress.receiverName.toLowerCase().includes(searchText.toLowerCase()) ||
+      order.shippingAddress.addressAlias.toLowerCase().includes(searchText.toLowerCase()) ||
       order.shippingAddress.address.toLowerCase().includes(searchText.toLowerCase()) ||
+      order.shippingAddress.city.toLowerCase().includes(searchText.toLowerCase()) ||
+      order.shippingAddress.district.toLowerCase().includes(searchText.toLowerCase()) ||
       order.shippingAddress.contact.includes(searchText);
 
     const matchesDateRange =
@@ -258,75 +438,17 @@ const AllOrders = () => {
         <div className="orderManagementContent">
           
           <div className="orderManagementDatagrid">
-            <div className="filterContainer">
-              <TextField
-                label="Search"
-                variant="outlined"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-              />
-              <TextField
-                label="Start Date"
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-              <TextField
-                label="End Date"
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-              <TextField
-                label="Min Total"
-                type="number"
-                value={minTotal}
-                onChange={(e) => setMinTotal(e.target.value)}
-              />
-              <TextField
-                label="Max Total"
-                type="number"
-                value={maxTotal}
-                onChange={(e) => setMaxTotal(e.target.value)}
-              />
-              <Button variant="contained" color="primary" onClick={() => setOrders(filteredOrders)}>
-                Apply
-              </Button>
-              <Button variant="outlined" color="secondary" onClick={handleResetFilters}>
-                Reset
-              </Button>
+
+            <div className="tabContainer">
+              <button className={`tablink ${activeTab === "allOrders" ? "active" : ""}`} onClick={() => setActiveTab("allOrders")}>All Orders</button>
+              <button className={`tablink ${activeTab === "pendingOrders" ? "active" : ""}`} onClick={() => setActiveTab("pendingOrders")}>Pending Orders</button>
+              <button className={`tablink ${activeTab === "shippedOrders" ? "active" : ""}`} onClick={() => setActiveTab("shippedOrders")}>Shipped Orders</button>
+              <button className={`tablink ${activeTab === "completedOrders" ? "active" : ""}`} onClick={() => setActiveTab("completedOrders")}>Completed Orders</button>
             </div>
 
-            <div className="datatable">
-              <div className="datatableTitle">
-                All Orders
-              </div>
-              <div className='middle'>
-                      <div className='tableUserOrders'>
-                        <TableContainer component={Paper}>
-                            <Table aria-label="collapsible table">
-                                <TableHead>
-                                <TableRow>
-                                    <TableCell />
-                                    <TableCell>Order ID</TableCell>
-                                    <TableCell align="right">Date</TableCell>
-                                    <TableCell align="left" style={{paddingLeft:100}}>Shipping Address</TableCell>
-                                    <TableCell style={{fontWeight:'bold'}}  align="right">Total (Rs.)</TableCell>
-                                    <TableCell align="right">Status</TableCell>
-                                </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                {orders.map((order) => (
-                                    <Row key={order.orderId} row={order} />
-                                ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                      </div>
-                    </div>
-            </div>
+            <div className="tabContent">
+              {renderTabContent()}
+            </div>           
           </div>
         </div>
       </div>
