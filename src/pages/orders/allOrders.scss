@@ -75,6 +75,22 @@
           
           .tabContent {
 
+            .actionButton{
+              padding: 5px;
+              padding-left: 8px;
+              padding-right: 8px;
+              background-color: #ece8ff;
+              border: 1px solid blueviolet;
+              border-radius: 15px;
+
+              &:hover{
+                color: #ffffff;
+                cursor: pointer;
+                background-color: blueviolet;
+                border: 1px solid #ece8ff;
+              }
+            }
+
             .filterContainer {
               display: flex;
               gap: 20px;

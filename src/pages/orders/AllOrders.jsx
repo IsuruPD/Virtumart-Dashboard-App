@@ -2,16 +2,11 @@ import React from 'react';
 import './allOrders.scss';
 import SideBar from '../../components/sideBar/SideBar';
 import NavBar from '../../components/navBar/NavBar';
+import StatusUpdateDialog from '../../components/orderModificationDialog/OrderUpdateDialog';
 import "./../../components/dataTable/dataTable.scss";
-import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, orderBy, startAfter, limit, startAt } from 'firebase/firestore';
-import { auth, storage, firestore } from '../../firebase';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-
-
-
+import { firestore } from '../../firebase';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -28,6 +23,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TextField from '@mui/material/TextField'; 
 import Button from '@mui/material/Button'; 
+import { CircularProgress, Backdrop } from "@mui/material";
+
 
 
 const AllOrders = () => {
@@ -38,6 +35,7 @@ const AllOrders = () => {
   const [minTotal, setMinTotal] = useState("");
   const [maxTotal, setMaxTotal] = useState("");
   const [activeTab, setActiveTab] = useState("allOrders");
+  const [loading, setLoading] = useState(false);
 
   // Code for pagination feature
   // const [lastVisible, setLastVisible] = useState(null);
@@ -54,6 +52,8 @@ const AllOrders = () => {
 
   const fetchOrders = async () => {
     try {
+      setLoading(true); // Start loading state
+
       const usersSnapshot = await getDocs(collection(firestore, 'user'));
       let allOrders = [];
 
@@ -69,6 +69,10 @@ const AllOrders = () => {
           ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Shipped"));
         } else if (activeTab === "completedOrders") {
           ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Complete"));
+        } else if (activeTab === "disputeOrders") {
+          ordersQuery = query(userOrdersRef, where("orderStatus", "==", "In Dispute"));
+        } else if (activeTab === "cancelledOrders") {
+          ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Cancelled"));
         }
 
         const userOrdersSnapshot = await getDocs(ordersQuery);
@@ -76,6 +80,7 @@ const AllOrders = () => {
           const data = userOrderDoc.data();
           allOrders.push({
             orderId: userOrderDoc.id,
+            userId: uid,
             ...data,
           });
         });
@@ -84,7 +89,17 @@ const AllOrders = () => {
       setOrders(allOrders);
     } catch (error) {
       console.error("Error fetching orders:", error);
-    }
+    } finally {
+      setLoading(false);
+    }    
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
+  const refreshOrders = () => {
+    fetchOrders();
   };
   
   // For paging change the two function comments 
@@ -206,6 +221,7 @@ const AllOrders = () => {
                               <TableCell align="left" style={{paddingLeft:100}}>Shipping Address</TableCell>
                               <TableCell style={{fontWeight:'bold'}}  align="right">Total (Rs.)</TableCell>
                               <TableCell align="right">Status</TableCell>
+                              <TableCell align="center">Action</TableCell>
                           </TableRow>
                           </TableHead>
                           <TableBody>
@@ -257,6 +273,24 @@ const AllOrders = () => {
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    const handleDialogOpen = () => {
+      setDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+    };
+
+    const onStatusUpdate = (orderId, newStatus) => {
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.orderId === orderId ? { ...order, orderStatus: newStatus } : order
+        )
+      );
+    };
+    
 
     return (
       <React.Fragment>
@@ -282,7 +316,11 @@ const AllOrders = () => {
             {row.shippingAddress.contact}</TableCell>
           <TableCell style={{fontWeight:'bold'}}  align="right">{(row.orderTotal).toFixed(2)}</TableCell>
           <TableCell align="right">{row.orderStatus}</TableCell>
-
+          <TableCell align="center">
+            <div>
+              <button className="actionButton" onClick={handleDialogOpen}>Update</button>
+            </div>
+          </TableCell>
         </TableRow>
         <TableRow>
 
@@ -345,6 +383,15 @@ const AllOrders = () => {
             </TableCell>
 
         </TableRow>
+
+        {/* Status Update Dialog */}
+      <StatusUpdateDialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        order={row}
+        onStatusUpdate={onStatusUpdate} 
+      />
+
       </React.Fragment>
     );
   }
@@ -444,6 +491,8 @@ const AllOrders = () => {
               <button className={`tablink ${activeTab === "pendingOrders" ? "active" : ""}`} onClick={() => setActiveTab("pendingOrders")}>Pending Orders</button>
               <button className={`tablink ${activeTab === "shippedOrders" ? "active" : ""}`} onClick={() => setActiveTab("shippedOrders")}>Shipped Orders</button>
               <button className={`tablink ${activeTab === "completedOrders" ? "active" : ""}`} onClick={() => setActiveTab("completedOrders")}>Completed Orders</button>
+              <button className={`tablink ${activeTab === "disputeOrders" ? "active" : ""}`} onClick={() => setActiveTab("disputeOrders")}>In Dispute</button>
+              <button className={`tablink ${activeTab === "cancelledOrders" ? "active" : ""}`} onClick={() => setActiveTab("cancelledOrders")}>Cancelled</button>
             </div>
 
             <div className="tabContent">
@@ -451,6 +500,10 @@ const AllOrders = () => {
             </div>           
           </div>
         </div>
+        {/* Loading State */}
+        <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+            <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     </div>
   );
