@@ -283,10 +283,10 @@ const AllOrders = () => {
       setDialogOpen(false);
     };
 
-    const onStatusUpdate = (orderId, newStatus) => {
+    const handleOrderUpdate = (updatedOrder) => {
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order.orderId === orderId ? { ...order, orderStatus: newStatus } : order
+          order.orderId === updatedOrder.orderId ? updatedOrder : order
         )
       );
     };
@@ -311,7 +311,8 @@ const AllOrders = () => {
           <TableCell align="left" style={{paddingLeft:100}}>
             
             {row.shippingAddress.receiverName},<br/> 
-            {row.shippingAddress.addressAlias},&nbsp;{row.shippingAddress.address},&nbsp;
+            {/* {row.shippingAddress.addressAlias},&nbsp; */}
+            {row.shippingAddress.address},&nbsp;
             {row.shippingAddress.city},&nbsp;{row.shippingAddress.district}<br/>
             {row.shippingAddress.contact}</TableCell>
           <TableCell style={{fontWeight:'bold'}}  align="right">{(row.orderTotal).toFixed(2)}</TableCell>
@@ -389,7 +390,7 @@ const AllOrders = () => {
         open={dialogOpen}
         onClose={handleDialogClose}
         order={row}
-        onStatusUpdate={onStatusUpdate} 
+        onOrderUpdate={handleOrderUpdate}
       />
 
       </React.Fragment>
