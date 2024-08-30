@@ -51,14 +51,10 @@ function App() {
               <Route path="orders">
                 <Route index element={<OrderManagement/>}/>
                 <Route path="all/" element={<AllOrders />} />
-                {/* <Route path=":orderId" element={<SingleItem/>}/> */}
-                {/* <Route path="new" element={<NewItem inputs={productInputs} title="Add New Order"/>}/> */}
               </Route>
 
               <Route path="support">
                 <Route index element={<CustomerSupport/>}/>
-                <Route path=":customerId" element={<SingleItem/>}/>
-                <Route path="new" element={<NewItem inputs={productInputs} title="Add New Support"/>}/>
               </Route>
 
               <Route path="accounts">

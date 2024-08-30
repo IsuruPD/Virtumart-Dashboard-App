@@ -213,7 +213,7 @@ const OrderUpdateDialog = ({ open, onClose, order, onOrderUpdate }) => {
 
       <DialogActions className="actionBar" sx={{ padding: '16px 24px' }}>
         <Button onClick={onClose} color="primary" variant="outlined">Cancel</Button>
-        <Button onClick={handleUpdate} color="primary" variant="contained">Update</Button>
+        <Button onClick={handleUpdate} color="primary" variant="contained">{loading ? 'Updating...' : 'Update'}</Button>
       </DialogActions>
 
       {/* Loading State */}

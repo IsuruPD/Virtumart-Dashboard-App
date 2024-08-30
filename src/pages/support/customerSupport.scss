@@ -1,28 +1,100 @@
-.customerSupport{
+.customerSupport {
     display: flex;
-
-    .customerSupportContainer{
-        flex: 6;
-
-        .customerSupportTitle{
-            width: 100%;
-            font-size: 24px;
-            color: gray;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        
-            .link{
-              text-decoration: none;
-              color: green;
-              font-size: 16px;
-              font-weight: 400;
-              border: 1px solid green;
-              padding: 5px;
-              border-radius: 5px;
-              cursor: pointer;
+    background: #f0f2f5;
+  
+    .sideBar{
+        .center{
+            .supportItem{
+                background-color: rgb(220, 212, 255);
             }
-        }
+        }   
     }
-} 
+
+    .customerSupportContainer {
+      flex: 6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e0e7ff, #d6d9f2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+  
+      &:before {
+        content: '';
+        position: absolute;
+        top: -100px;
+        left: -100px;
+        width: 300px;
+        height: 300px;
+        background: rgba(106, 22, 185, 0.2);
+        border-radius: 50%;
+        z-index: 1;
+      }
+  
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -150px;
+        right: -150px;
+        width: 400px;
+        height: 400px;
+        background: rgba(195, 135, 251, 0.3);
+        border-radius: 50%;
+        z-index: 1;
+      }
+  
+      .customerSupportTitle {
+        z-index: 10;
+        font-size: 36px;
+        font-weight: 700;
+        color: #6a16b9;
+        margin-bottom: 40px;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+  
+      .navButton {
+        z-index: 10;
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #fff;
+        background: #6a16b9;
+        border-radius: 50px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        text-decoration: none;
+  
+        &:hover {
+          background: #540b93;
+          transform: translateY(-5px);
+        }
+      }
+  
+      .iconWrapper {
+        margin-top: 20px;
+        display: flex;
+        gap: 20px;
+  
+        .iconCard {
+          width: 80px;
+          height: 80px;
+          background: rgba(106, 22, 185, 0.1);
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 40px;
+          color: #6a16b9;
+          transition: background 0.3s ease;
+  
+          &:hover {
+            background: rgba(106, 22, 185, 0.3);
+          }
+        }
+      }
+    }
+  }
+  

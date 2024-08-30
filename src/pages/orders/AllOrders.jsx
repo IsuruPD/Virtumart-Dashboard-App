@@ -24,7 +24,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TextField from '@mui/material/TextField'; 
 import Button from '@mui/material/Button'; 
 import { CircularProgress, Backdrop } from "@mui/material";
-
+import { useLocation } from 'react-router-dom';
 
 
 const AllOrders = () => {
@@ -36,6 +36,7 @@ const AllOrders = () => {
   const [maxTotal, setMaxTotal] = useState("");
   const [activeTab, setActiveTab] = useState("allOrders");
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
   // Code for pagination feature
   // const [lastVisible, setLastVisible] = useState(null);
@@ -46,6 +47,15 @@ const AllOrders = () => {
 
   //const ORDERS_PER_PAGE = 100;
 
+  useEffect(() => {
+    // Read the tab from query parameters
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [location]);
+  
   useEffect(() => {
     fetchOrders();
   }, [activeTab]);

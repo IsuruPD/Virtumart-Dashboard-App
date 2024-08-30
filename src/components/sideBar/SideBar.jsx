@@ -58,9 +58,9 @@ const SideBar = () => {
 
 
                 <p className="title">System</p>
-                <Link to="/" style={{textDecoration: "none" }}>
+                {/* <Link to="/" style={{textDecoration: "none" }}>
                     <li className="notificationsItem"> <NotificationsIcon className="sideBarIcon"/> <span>Notifications</span></li>
-                </Link>
+                </Link> */}
                 <Link to="/" style={{textDecoration: "none" }}>
                     <li className="settingsItem"> <SettingsIcon className="sideBarIcon"/> <span>Settings</span></li>
                 </Link>

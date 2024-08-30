@@ -8,10 +8,13 @@ import { useState, useEffect } from "react";
 import { collection, getDocs } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 import { Link } from 'react-router-dom';
+import { CircularProgress, Backdrop } from "@mui/material";
+
 
 const OrderManagement = () => {
 
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [orderedCount, setOrderedCount] = useState(0);
   const [cancelledCount, setCancellationsCount] = useState(0);
   const [disputeCount, setDisputesCount] = useState(0);
@@ -19,6 +22,8 @@ const OrderManagement = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        setLoading(true); // Start loading state
+
         // Fetch all UIDs from the 'user' collection
         const usersSnapshot = await getDocs(collection(firestore, 'user'));
         let allOrders = [];
@@ -39,7 +44,6 @@ const OrderManagement = () => {
             userOrdersSnapshot.forEach((userOrderDoc) => {
               const data = userOrderDoc.data();
   
-              // Add the item count
               const itemCount = data.orderItems ? data.orderItems.length : 0;
   
               // Extract the city and contact from the shipping address
@@ -47,7 +51,6 @@ const OrderManagement = () => {
               const receiverName = data.shippingAddress?.receiverName || '';
               const contact = data.shippingAddress?.contact || '';
 
-              // Format orderTotal to two decimal places
               const orderTotal = data.orderTotal ? data.orderTotal.toFixed(2) : '0.00';
   
               // Add the formatted data to the array
@@ -66,7 +69,7 @@ const OrderManagement = () => {
                 countOrdered++;
               } else if (data.orderStatus === "Cancelled") {
                 cancelledCount++;
-              } else if (data.orderStatus === "Dispute") {
+              } else if (data.orderStatus === "In Dispute") {
                 disputeCount++;
               } else {
 
@@ -87,6 +90,8 @@ const OrderManagement = () => {
         console.log("Final order data:", allOrders);
       } catch (error) {
         console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
       }
     };
   
@@ -101,32 +106,12 @@ const OrderManagement = () => {
     { field: 'itemCount', headerName: 'Item Count', width: 100 },
     { field: 'receiverName', headerName: 'Customer Name', width: 150 },
     { field: 'contact', headerName: 'Contact', width: 150 },
-    { field: 'orderTotal', headerName: 'Total (Rs.)', width: 100 },
+    { field: 'orderTotal', headerName: 'Total (Rs.)', width: 150 },
   ];
 
   const handleView = (order) => {
     console.log(order);
   };
-
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <div 
-              className="viewButton"
-              onClick={() => handleView(params.row)}
-            >
-              View
-            </div>
-          </div>
-        ); 
-      },
-    },
-  ];
 
   return (
     <div className="orderManagement">
@@ -150,7 +135,7 @@ const OrderManagement = () => {
               <DataGrid
                 className="datagrid"
                 rows={orders}
-                columns={columns.concat(actionColumn)}
+                columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5]}
               />
@@ -158,26 +143,42 @@ const OrderManagement = () => {
           </div>
 
           <div className="orderManagementCards">
-            <div className="card">
-              <h3>Pending Orders</h3>
-              <p>{orderedCount}</p>
-              <Link to="/orders">View</Link>
-            </div>
+            <Link to="/orders/all?tab=pendingOrders">
+              <div className="card">
+                <p className='cardTitle'>Pending Orders</p>
+                <p className='totalCount'>{orderedCount}</p>
+                <div className="circle1"></div>
+                <div className="circle2"></div>
+                <div className="circle3"></div>             
+              </div>
+            </Link>
+            
+            <Link to="/orders/all?tab=cancelledOrders">
+              <div className="card">
+                <p className='cardTitle'>Cancellations</p>
+                <p className='totalCount'>{cancelledCount}</p>
+                <div className="circle1"></div>
+                <div className="circle2"></div>
+                <div className="circle3"></div>
+              </div>
+            </Link>
 
-            <div className="card">
-              <h3>Cancellations</h3>
-              <p>{cancelledCount}</p>
-              <Link to="/cancellations">View</Link>
-            </div>
-
-            <div className="card">
-              <h3>Order Disputes</h3>
-              <p>{disputeCount}</p>
-              <Link to="/disputes">View</Link>
-            </div>
+            <Link to="/orders/all?tab=disputeOrders">
+              <div className="card">
+                <p className='cardTitle'>Order Disputes</p>
+                <p className='totalCount'>{disputeCount}</p>
+                <div className="circle1"></div>
+                <div className="circle2"></div>
+                <div className="circle3"></div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
+      {/* Loading State */}
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 };
