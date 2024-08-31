@@ -7,12 +7,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import StatsCard from './StatsCard';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { addLabels, balanceSheet } from './netflixsBalanceSheet';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
-import { dataset } from './weather';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
-import SalesInQuantity from './../../components/analyticsCharts/SalesInQuanitity';
-import TopSellingProducts from './TopSellingProducts';
+import TotalSalesChart from '../../components/analyticsCharts/TotalSales';
+import SalesByCategoryChart from '../../components/analyticsCharts/SalesByCategory';
+import TopSellingProducts from '../../components/analyticsCharts/TopSellingProducts';
+import SalesInQuantityChart from './../../components/analyticsCharts/SalesInQuanitity';
+import SalesGrowth from './../../components/analyticsCharts/SalesGrowth';
 
 
 const data = [
@@ -105,12 +106,12 @@ const AccountsManagement = () => {
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={6}>
                       <Paper>
-                        <TopSellingProducts/>
+                        <TotalSalesChart/>
                       </Paper>
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
                       <Paper>
-                      <SalesInQuantity/>
+                      <SalesByCategoryChart/>
                       </Paper>
                     </Grid>
                   </Grid>
@@ -136,7 +137,7 @@ const AccountsManagement = () => {
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
                       <Paper>
-                      <TopSellingProducts/>
+                      <SalesInQuantityChart/>
                       </Paper>
                     </Grid>
                   </Grid>
@@ -157,7 +158,7 @@ const AccountsManagement = () => {
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={12} lg={12}>
                       <Paper>
-                        <TopSellingProducts/>
+                        <SalesGrowth/>
                       </Paper>
                     </Grid>
                   </Grid>
@@ -166,7 +167,7 @@ const AccountsManagement = () => {
             </Container> 
           </div>
 
-          <div className="accountsHeadContainer">
+          {/* <div className="accountsHeadContainer">
             <div className="overview">              
               <div className="pieChartContainer">
                 <PieChart
@@ -220,12 +221,8 @@ const AccountsManagement = () => {
                   />
               </div>
             </div>
-          </div>
-      </div>
-
-      
-
-      
+          </div> */}
+      </div>     
     </div>   
   </>
   )
