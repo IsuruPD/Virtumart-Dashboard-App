@@ -102,15 +102,15 @@ const AccountsManagement = () => {
                   </Link>
                 </div>
 
-                <div style={{ paddingTop: '20px'}}>
+                <div style={{ paddingTop: '20px', overflowX: 'auto' }}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={6}>
-                      <Paper>
+                      <Paper style={{ padding: '10px', overflowX: 'auto' }}>
                         <TotalSalesChart/>
                       </Paper>
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                      <Paper>
+                      <Paper style={{ padding: '10px', overflowX: 'auto' }}>
                       <SalesByCategoryChart/>
                       </Paper>
                     </Grid>
@@ -128,15 +128,15 @@ const AccountsManagement = () => {
                   </Link>
                 </div>
 
-                <div style={{ paddingTop: '20px'}}>
+                <div style={{ paddingTop: '20px', overflowX: 'auto' }}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={6}>
-                      <Paper>
+                      <Paper style={{ padding: '20px', overflowX: 'auto' }}>
                         <TopSellingProducts/>
                       </Paper>
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                      <Paper>
+                      <Paper style={{ padding: '20px', overflowX: 'auto' }}>
                       <SalesInQuantityChart/>
                       </Paper>
                     </Grid>
@@ -157,7 +157,7 @@ const AccountsManagement = () => {
                 <div style={{ paddingTop: '20px'}}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={12} lg={12}>
-                      <Paper>
+                      <Paper style={{ padding: '20px', overflowX: 'auto' }}>
                         <SalesGrowth/>
                       </Paper>
                     </Grid>

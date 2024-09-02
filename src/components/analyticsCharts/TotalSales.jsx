@@ -1,51 +1,101 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { Typography } from '@mui/material';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
+import { collection, getDocs } from 'firebase/firestore';
+import { firestore } from '../../firebase';
 
+// Helper function to get the last 12 months including year
+const getLast12Months = () => {
+  const months = [];
+  const date = new Date();
 
-const topProductsData = [
-  { month: 'January', sales: 10000},
-  { month: 'February', sales: 15000},
-  { month: 'March', sales: 8000},
-  { month: 'April', sales: 12000},
-  { month: 'May', sales: 9000},
-  { month: 'June', sales: 7000},
-  { month: 'July', sales: 10000},
-  { month: 'August', sales: 15000},
-  { month: 'September', sales: 8000},
-  { month: 'October', sales: 12000},
-  { month: 'November', sales: 9000},
-  { month: 'December', sales: 7000},
-];
+  for (let i = 11; i >= 0; i--) {
+    const month = new Date(date.getFullYear(), date.getMonth() - i, 1);
+    const monthName = month.toLocaleString('default', { month: 'long' });
+    const year = month.getFullYear();
+    months.push({ month: monthName, year: year, key: `${monthName} ${year}` });
+  }
 
-const truncatedData = topProductsData.map(item => ({
-  ...item,
-  month: item.month.length > 3 ? item.month.substring(0, 3) + '.' : item.month,
-}));
-
-const chartSetting = {
-  yAxis: [
-    {
-      label: 'Total (Rs.)',
-    },
-  ],
-  sx: {
-    [`.${axisClasses.left} .${axisClasses.label}`]: {
-      transform: 'translate(-40px, 0)',
-    },
-  },
-  width: 500,
-  height: 400,
+  return months;
 };
 
 const TotalSales = () => {
+  const [salesData, setSalesData] = useState([]);
+  const [currentYear, setCurrentYear] = useState('');
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const usersSnapshot = await getDocs(collection(firestore, 'user'));
+        const last12Months = getLast12Months();
+        let monthlySales = {};
+
+        // Initialize monthlySales for the last 12 months
+        last12Months.forEach(({ key }) => {
+          monthlySales[key] = 0;
+        });
+
+        for (const userDoc of usersSnapshot.docs) {
+          const uid = userDoc.id;
+          const userOrdersRef = collection(firestore, 'orders', uid, 'user_orders');
+          const userOrdersSnapshot = await getDocs(userOrdersRef);
+
+          userOrdersSnapshot.forEach((userOrderDoc) => {
+            const data = userOrderDoc.data();
+            const orderDate = data.orderDate;
+
+            const orderYear = new Date(orderDate).getFullYear();
+            const orderMonth = new Date(orderDate).toLocaleString('default', { month: 'long' });
+
+            const key = `${orderMonth} ${orderYear}`;
+
+            // Integrate the orderTotal for each month and year
+            if (monthlySales[key] !== undefined) {
+              monthlySales[key] += data.orderTotal || 0;
+            }
+          });
+        }
+
+        // Convert the data into a format suitable for the BarChart
+        const formattedSalesData = last12Months.map(({ month, year, key }) => ({
+          month: `${month.substring(0, 3)}`,
+          year: year,
+          sales: monthlySales[key],
+        }));
+
+        setSalesData(formattedSalesData);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  const chartSetting = {
+    yAxis: [
+      {
+        label: 'Total (Rs.)',
+      },
+    ],
+    sx: {
+      [`.${axisClasses.left} .${axisClasses.label}`]: {
+        transform: 'translate(-50px, 0)',
+      },
+    },
+    width: 500,
+    height: 400,
+  };
+
   return (
-    <div>
-      <Typography style={{ paddingTop: '10px', paddingLeft: '10px' }}>Total Sales</Typography>
+    <div style={{ width: '100%', overflowX: 'auto'  }}>
+      <Typography style={{ paddingTop: '10px', paddingLeft: '10px' }}>Total Sales (Last 12 Months)</Typography>
       <BarChart
-        dataset={truncatedData}
-        series={[{ dataKey: 'sales', label: 'Sales (Rs.)', topProductsData }]}
+        dataset={salesData}
+        series={[{ 
+          dataKey: 'sales', 
+          label: 'Sales (Rs.)'}]}
         xAxis={[{ 
           scaleType: 'band', 
           dataKey: 'month', 
