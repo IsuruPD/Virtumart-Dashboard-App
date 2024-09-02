@@ -52,6 +52,7 @@
         box-shadow: 5px 15px 30px hsla(271, 76%, 53%, 0.3);
         //   transform: scale(0.8);
         transition: transform 0.3s ease, box-shadow 2s ease-out;
+        min-height: 350px;
 
         &:hover {
             // transform: scale(0.99);
@@ -62,10 +63,11 @@
 
     .logoContainer {
         width: 90px;
-        height: 40px; // Adjust the size as needed
+        height: 40px;
+        min-height: 40px;
         background: url('./../../assets/logoBg.png') no-repeat center center;
         background-size: cover;
-        animation: fadeIn 1s ease;
+        animation: fadeIn 8s ease;
         margin-bottom: 40px;
     }
 
@@ -97,27 +99,13 @@
         color: blueviolet;
     }
     
-    .MuiOutlinedInput-root {
-        fieldset {
-        border-color: #333333;
-        }
-        &:hover fieldset {
-        border-color: #1e88e5;
-        }
-        &.Mui-focused fieldset {
-        border-color: #2196f3;
-        }
-    }
-    .MuiFormHelperText-root {
-        color: #ff6f61;
-    }
+
     }
 
     .button {
         margin-top: 20px;
         padding: 15px 0;
         background: #1f1f1f;
-        border-radius: 0px;
         width: 40%;
         box-shadow: 3px 6px 8px #8a2ce280, -2px -2px 15px #dcd4ff;
         transition: all 0.3s ease;
@@ -131,9 +119,10 @@
 
     .imageContainer {
         width: 60%;
-        background: url('./../../assets/img1.jpg') no-repeat center center;
+        background: url('./../../assets/i1.jpg') no-repeat center center;
         background-size: cover;
         animation: fadeIn 1s ease;
+        border-radius: 0px;
     }
 
     @keyframes slideIn {

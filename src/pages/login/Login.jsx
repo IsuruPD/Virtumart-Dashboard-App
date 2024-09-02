@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Box } from '@mui/material';
+import { TextField, Button, Typography, Box, FormHelperText } from '@mui/material';
 import './login.scss';
 
 const Login = () => {
@@ -80,8 +80,12 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             error={!!errors.email}
-            helperText={errors.email}
+            sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'transparent' } } }}
           />
+          {errors.email && (
+            <FormHelperText sx={{margin: 0, padding: 0}} error>{errors.email}</FormHelperText>
+          )}
+
           <div className="lineBreak"></div>
           <TextField
             label="Password"
@@ -92,8 +96,13 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             error={!!errors.password}
-            helperText={errors.password}
+            sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'transparent' } } }}
           />
+          {errors.password && (
+            <FormHelperText sx={{margin: 0, padding: 0}} error>{errors.password}</FormHelperText>
+          )}
+
+
           <Button sx={{ borderRadius: '25px', color: '#42027f', fontWeight: '300'}} type="submit" variant="primary" className="button">
             Login
           </Button>
