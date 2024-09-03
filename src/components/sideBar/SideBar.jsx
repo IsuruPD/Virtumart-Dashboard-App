@@ -15,6 +15,7 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { Link } from 'react-router-dom';
 import LogoImage from '../../assets/logoBg.png';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import MousePointer from './../mousePointer/MousePointer';
 
 const SideBar = () => {
   return (
@@ -75,10 +76,9 @@ const SideBar = () => {
                 </Link>
             </ul>
         </div>
-        {/* <div className="bottom">
-            <div className="colorOptions"></div>
-            <div className="colorOptions"></div>
-        </div> */}
+        <div className="bottom">
+            <MousePointer/>
+        </div>
     
     </div>
   )
