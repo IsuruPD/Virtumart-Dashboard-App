@@ -20,7 +20,6 @@ const getLast12Months = () => {
 
 const SalesByCategory = () => {
   const [pieData, setPieData] = useState([]);
-
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -41,6 +40,11 @@ const SalesByCategory = () => {
             const orderMonth = orderDate.toLocaleString('default', { month: 'long' });
             const key = `${orderMonth} ${orderYear}`;
 
+            // Skip orders that have been cancelled
+            if (data.orderStatus === 'Cancelled') {
+              return;
+            }
+            
             // Only consider orders from the last 12 months
             if (last12Months.some(month => month.key === key)) {
               totalSales += data.orderTotal; // Sum up the total sales
@@ -48,7 +52,7 @@ const SalesByCategory = () => {
               // Iterate over each orderItem in the order
               data.orderItems.forEach((item) => {
                 const categoryName = item.product.category;
-                const itemTotal = item.product.price * (1-item.product.offerPercentage) * item.quantity;
+                const itemTotal = item.product.price * (1 - item.product.offerPercentage) * item.quantity;
 
                 if (!categorySales[categoryName]) {
                   categorySales[categoryName] = 0;
@@ -61,11 +65,15 @@ const SalesByCategory = () => {
         }
 
         // Convert categorySales into a format suitable for the PieChart
-        const formattedPieData = Object.entries(categorySales).map(([category, sales], index) => ({
-          id: index,
-          value: (sales / totalSales) * 100, // Calculate the percentage
-          label: category,
-        }));
+        const formattedPieData = Object.entries(categorySales).map(([category, sales], index) => {
+          const percentage = (sales / totalSales) * 100; // Calculate the percentage
+
+          return {
+            id: index,
+            value: percentage,
+            label: category,
+          };
+        });
 
         setPieData(formattedPieData);
       } catch (error) {

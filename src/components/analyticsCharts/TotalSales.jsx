@@ -50,6 +50,11 @@ const TotalSales = () => {
 
             const key = `${orderMonth} ${orderYear}`;
 
+            // Skip orders that have been cancelled
+            if (data.orderStatus === 'Cancelled') {
+              return;
+            }
+            
             // Integrate the orderTotal for each month and year
             if (monthlySales[key] !== undefined) {
               monthlySales[key] += data.orderTotal || 0;

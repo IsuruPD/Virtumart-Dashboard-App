@@ -46,6 +46,11 @@ const TopSellingProducts = () => {
             const orderMonth = new Date(orderDate).toLocaleString('default', { month: 'long' });
             const key = `${orderMonth} ${orderYear}`;
 
+            // Skip orders that have been cancelled
+            if (data.orderStatus === 'Cancelled') {
+              return;
+            }
+
             // Iterate over each orderItem in the order
             data.orderItems.forEach((item) => {
               const productName = item.product.productName;

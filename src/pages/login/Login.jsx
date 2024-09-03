@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Box, FormHelperText } from '@mui/material';
 import './login.scss';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -70,7 +71,7 @@ const Login = () => {
 
       <Box className="formContainer">
         <Box className="logoContainer"></Box>
-        <Typography variant="h4" className='title'>Login here,</Typography>
+        <Typography variant="h4" className='title' sx={{marginBottom: 2}}>Login here,</Typography>
         <form className="form" onSubmit={handleSubmit}>
           <TextField
             label="Email"
@@ -102,6 +103,7 @@ const Login = () => {
             <FormHelperText sx={{margin: 0, padding: 0}} error>{errors.password}</FormHelperText>
           )}
 
+          <Link className="forgotPassword">Forgot Password?</Link>
 
           <Button sx={{ borderRadius: '25px', color: '#42027f', fontWeight: '300'}} type="submit" variant="primary" className="button">
             Login
