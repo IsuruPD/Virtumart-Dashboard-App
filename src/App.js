@@ -18,6 +18,7 @@ import OrderManagement from './pages/orders/OrderManagement';
 import AllOrders from './pages/orders/AllOrders';
 import CustomerSupport from './pages/support/CustomerSupport';
 import CustomerManagement from './pages/customers/customerManagement/CustomerManagement';
+import ProtectedRoute from './components/authentication/ProtectedRoute';
 
 function App() {
   return (
@@ -27,41 +28,79 @@ function App() {
           <Routes>
             <Route path="/">
               <Route path="" element={<Login/>}/>
-              <Route path="dashboard" index element={<Home/>}/>
+              <Route path="dashboard" index element={<ProtectedRoute><Home/></ProtectedRoute>}/>
 
-              <Route path="users">
-                <Route index element={<CustomerDetails/>}/>
-                {/* <Route path=":userId" element={<SingleItem/>}/> */}
-                <Route path="manage/:userId/" element={<CustomerManagement/>}/>
-              </Route>
+              <Route 
+                path="users/*" 
+                element={
+                  <ProtectedRoute requiredRoles={['admin']}>
+                    <Routes>
+                      <Route path="" element={<CustomerDetails />} />
+                      <Route path="manage/:userId" element={<CustomerManagement />} />
+                    </Routes>
+                  </ProtectedRoute>
+                } 
+              />
               
-              <Route path="staff">
-                <Route index element={<StaffDetails/>}/>
-                {/* <Route path=":staffId" element={<SingleItem/>}/> */}
-                <Route path="manage/:isNew/:employeeId/" element={<StaffManagement/>}/>
-              </Route>
+              <Route 
+                path="staff/*" 
+                element={
+                  <ProtectedRoute requiredRoles={['admin']}>
+                    <Routes>
+                      <Route path="" element={<StaffDetails />} />
+                      <Route path="manage/:isNew/:employeeId" element={<StaffManagement />} />
+                    </Routes>
+                  </ProtectedRoute>
+                } 
+              />
 
-              <Route path="products">
-                <Route index element={<ProductDetails/>}/>
-                <Route path="manage/" element={<ProductDisplay/>}/>
-                <Route path="manage/:isNew/:productId/" element={<ProductManagement/>}/>
-                <Route path="manage/categories" element={<ProductCategories />} />
-              </Route>
+              <Route 
+                path="products/*" 
+                element={
+                  <ProtectedRoute requiredRoles={['inventory manager', 'admin']}>
+                    <Routes>
+                      <Route path="" element={<ProductDetails />} />
+                      <Route path="manage" element={<ProductDisplay />} />
+                      <Route path="manage/:isNew/:productId" element={<ProductManagement />} />
+                      <Route path="manage/categories" element={<ProductCategories />} />
+                    </Routes>
+                  </ProtectedRoute>
+                } 
+              />
 
-              <Route path="orders">
-                <Route index element={<OrderManagement/>}/>
-                <Route path="all/" element={<AllOrders />} />
-              </Route>
+              <Route 
+                path="orders/*" 
+                element={
+                  <ProtectedRoute requiredRoles={['accountant', 'admin']}>
+                    <Routes>
+                      <Route path="" element={<OrderManagement />} />
+                      <Route path="all" element={<AllOrders />} />
+                    </Routes>
+                  </ProtectedRoute>
+                } 
+              />
 
-              <Route path="support">
-                <Route index element={<CustomerSupport/>}/>
-              </Route>
+              <Route 
+                path="support/*" 
+                element={
+                  <ProtectedRoute requiredRoles={['customer support', 'admin']}>
+                    <CustomerSupport />
+                  </ProtectedRoute>
+                } 
+              />
 
-              <Route path="accounts">
-                <Route index element={<AccountsManagement/>}/>
-                <Route path="account" element={<SingleItem/>}/>
-                <Route path="new" element={<NewItem inputs={productInputs} title="Add New Accounts"/>}/>
-              </Route>
+              <Route 
+                path="accounts/*" 
+                element={
+                  <ProtectedRoute requiredRoles={['accountant', 'admin']}>
+                    <Routes>
+                      <Route path="" element={<AccountsManagement />} />
+                      {/* <Route path="account" element={<SingleItem />} /> */}
+                      <Route path="new" element={<NewItem inputs={productInputs} title="Add New Accounts" />} />
+                    </Routes>
+                  </ProtectedRoute>
+                } 
+              />
             </Route>
           </Routes>
         </BrowserRouter>
