@@ -50,10 +50,15 @@
                 align-items: center;
                 padding: 12px;
                 cursor: pointer;
+                color: rgb(85, 26, 139);
 
                 &:hover{
                     background-color: #ece8ff;
                 }
+            }
+
+            .logoutItem{
+                color: rgb(85, 26, 139);
             }
 
             .sideBarIcon{

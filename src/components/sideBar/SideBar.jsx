@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./sideBar.scss";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -12,12 +12,38 @@ import StoreIcon from '@mui/icons-material/Store';
 import BadgeIcon from '@mui/icons-material/Badge';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LogoImage from '../../assets/logoBg.png';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import MousePointer from './../mousePointer/MousePointer';
 
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
+import { auth } from '../../firebase';
+import { signOut } from 'firebase/auth';
+import DialogLogo from './../../assets/logoBg.png'
+
 const SideBar = () => {
+
+  const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    setOpenLogoutDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenLogoutDialog(false);
+  };
+
+  const handleLogoutConfirm = () => {
+    signOut(auth).then(() => {
+    setOpenLogoutDialog(false);
+    navigate('/');
+    }).catch((error) => {
+        console.error("Error logging out: ", error);
+    });
+  };
+
   return (
     <div class="sideBar">
         <div className="top">
@@ -71,15 +97,40 @@ const SideBar = () => {
                 <Link to="/profile" style={{textDecoration: "none" }}>
                     <li className="profileItem"> <PersonIcon className="sideBarIcon"/> <span>Profile</span></li>
                 </Link>
-                <Link to="/logout" style={{textDecoration: "none" }}>
-                    <li className="logoutItem"> <LogoutIcon className="sideBarIcon"/> <span>Logout</span></li>
-                </Link>
+                <div style={{textDecoration: "none" }}>
+                    <li className="logoutItem" onClick={handleLogoutClick}> <LogoutIcon className="sideBarIcon"/> <span>Logout</span></li>
+                </div>
             </ul>
         </div>
         <div className="bottom">
             <MousePointer/>
         </div>
     
+        {/* Logout Confirmation Dialog */}
+        <Dialog
+            open={openLogoutDialog}
+            onClose={handleClose}
+        >
+            <DialogTitle>{"Confirm Logout"}</DialogTitle>
+            <DialogContent>
+            <DialogContentText style={{ display: 'flex', alignItems: 'center' }}>
+                <img 
+                    src={DialogLogo} 
+                    alt="Logo" 
+                    style={{ width: '150px', height: 'auto', objectFit: 'contain', marginRight: '10px' }} 
+                />
+                Are you sure you want to log out?
+            </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={handleClose} color="primary">
+                Cancel
+            </Button>
+            <Button onClick={handleLogoutConfirm} color="primary">
+                Logout
+            </Button>
+            </DialogActions>
+        </Dialog>
     </div>
   )
 }

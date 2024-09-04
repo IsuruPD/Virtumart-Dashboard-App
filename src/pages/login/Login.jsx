@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Box, FormHelperText } from '@mui/material';
+import { TextField, Button, Typography, Box, FormHelperText, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import './login.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth'; 
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openResetDialog, setOpenResetDialog] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetError, setResetError] = useState('');
+  const [resetSuccess, setResetSuccess] = useState('');
+  
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // If user is already logged in
+        setOpenDialog(true);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   const validateForm = () => {
     let tempErrors = {};
@@ -39,6 +55,57 @@ const Login = () => {
         });
     }
   };
+
+  ////////////////
+  // Logout functions
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful, navigate to the login page
+      navigate('/');
+      setOpenDialog(false);
+    }).catch((error) => {
+      console.error('Logout error:', error);
+    });
+  };
+
+  const handleCancel = () => {
+    setOpenDialog(false);
+    navigate('/dashboard');  // Navigate back to the dashboard
+  };
+
+  ////////////////
+
+  ////////////////
+  // Forgot Password functionality
+  const handleForgotPassword = () => {
+    setOpenResetDialog(true);
+  };
+
+  const handleResetPassword = () => {
+    if (!/\S+@\S+\.\S+/.test(resetEmail)) {
+      setResetError('Please enter a valid email address.');
+      return;
+    }
+    sendPasswordResetEmail(auth, resetEmail)
+      .then(() => {
+        setResetSuccess('Password reset email sent! Please check your inbox.');
+        setResetError('');
+      })
+      .catch((error) => {
+        console.error('Password reset error:', error);
+        setResetError('Failed to send password reset email.');
+        setResetSuccess('');
+      });
+  };
+
+  const handleCloseResetDialog = () => {
+    setOpenResetDialog(false);
+    setResetEmail('');
+    setResetError('');
+    setResetSuccess('');
+  };
+
+  ////////////////
 
   ////////////////
   useEffect(() => {
@@ -118,7 +185,7 @@ const Login = () => {
             <FormHelperText sx={{margin: 0, padding: 0}} error>{errors.password}</FormHelperText>
           )}
 
-          <Link className="forgotPassword">Forgot Password?</Link>
+          <Link className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</Link>
 
           <Button sx={{ borderRadius: '25px', color: '#42027f', fontWeight: '300'}} type="submit" variant="primary" className="button">
             Login
@@ -126,6 +193,49 @@ const Login = () => {
         </form>
       </Box>
       <Box className="imageContainer"></Box>
+
+      {/* Log out confirmation dialog box */}
+      <Dialog open={openDialog} onClose={handleCancel}>
+        <DialogTitle>{"Already Logged In"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            You are already logged in. Do you want to log out and log in with a different account, or go back to the dashboard?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="primary">Cancel</Button>
+          <Button onClick={handleLogout} color="primary">Log Out</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Forgot password dialog box */}
+      <Dialog open={openResetDialog} onClose={handleCloseResetDialog}>
+        <DialogTitle>{"Reset Password"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter your email address. You will receive a link to create a new password via email.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+            value={resetEmail}
+            onChange={(e) => setResetEmail(e.target.value)}
+            error={!!resetError}
+            helperText={resetError}
+          />
+          {resetSuccess && (
+            <Typography sx={{ color: 'green', marginTop: 1 }}>{resetSuccess}</Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseResetDialog} color="primary">Cancel</Button>
+          <Button onClick={handleResetPassword} color="primary">Send Reset Link</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
