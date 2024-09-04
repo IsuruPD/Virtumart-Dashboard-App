@@ -291,62 +291,6 @@ const AccountsManagement = () => {
               </div>
             </Container> 
           </div>
-
-          {/* <div className="accountsHeadContainer">
-            <div className="overview">              
-              <div className="pieChartContainer">
-                <PieChart
-                  series={[
-                    {
-                      data: pieData,
-                      innerRadius: 50,
-                      outerRadius: 200,
-                      paddingAngle: 5,
-                      cornerRadius: 5,
-                      startAngle: -90,
-                      endAngle: 180,
-                      highlightScope: { faded: 'global', highlighted: 'item' },
-                      faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-                    },
-                  ]}
-                  height={500}
-                />
-              </div>
-
-              <div className="barChartContainer1">
-                <BarChart
-                  dataset={balanceSheet}
-                  series={addLabels([
-                    { dataKey: 'currAss', stack: 'assets' },
-                    { dataKey: 'nCurrAss', stack: 'assets' },
-                    { dataKey: 'curLia', stack: 'liability' },
-                    { dataKey: 'nCurLia', stack: 'liability' },
-                    { dataKey: 'capStock', stack: 'equity' },
-                    { dataKey: 'retEarn', stack: 'equity' },
-                    { dataKey: 'treas', stack: 'equity' },
-                  ])}
-                  xAxis={[{ scaleType: 'band', dataKey: 'year' }]}
-                  slotProps={{ legend: { hidden: true } }}
-                  width={600}
-                  height={350}
-                />
-              </div>
-
-              <div className="barChartContainer2">
-                <BarChart
-                    dataset={dataset}
-                    xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-                    series={[
-                      { dataKey: 'london', label: 'London', valueFormatter },
-                      { dataKey: 'paris', label: 'Paris', valueFormatter },
-                      { dataKey: 'newYork', label: 'New York', valueFormatter },
-                      { dataKey: 'seoul', label: 'Seoul', valueFormatter },
-                    ]}
-                    {...chartSetting}
-                  />
-              </div>
-            </div>
-          </div> */}
       </div>     
     </div>   
   </>

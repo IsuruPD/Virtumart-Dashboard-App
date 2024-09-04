@@ -1,6 +1,14 @@
 .home{
     display: flex;
 
+    .sideBar{
+        .center{
+            .dashboardItem{
+                background-color: rgb(220, 212, 255);
+            }
+        }   
+    }
+
     .homeContainer{
         // background-color: antiquewhite;
         flex: 6;

@@ -32,7 +32,7 @@ const SideBar = () => {
 
 
                 <p className="title">Main</p>
-                <Link to="/" style={{textDecoration: "none" }}>
+                <Link to="/dashboard" style={{textDecoration: "none" }}>
                     <li className="dashboardItem"> <DashboardIcon className="sideBarIcon"/> <span>Dashboard</span></li>
                 </Link>
 
@@ -62,16 +62,16 @@ const SideBar = () => {
                 {/* <Link to="/" style={{textDecoration: "none" }}>
                     <li className="notificationsItem"> <NotificationsIcon className="sideBarIcon"/> <span>Notifications</span></li>
                 </Link> */}
-                <Link to="/" style={{textDecoration: "none" }}>
+                <Link to="/settings" style={{textDecoration: "none" }}>
                     <li className="settingsItem"> <SettingsIcon className="sideBarIcon"/> <span>Settings</span></li>
                 </Link>
 
 
                 <p className="title">User</p>
-                <Link to="/" style={{textDecoration: "none" }}>
+                <Link to="/profile" style={{textDecoration: "none" }}>
                     <li className="profileItem"> <PersonIcon className="sideBarIcon"/> <span>Profile</span></li>
                 </Link>
-                <Link to="/" style={{textDecoration: "none" }}>
+                <Link to="/logout" style={{textDecoration: "none" }}>
                     <li className="logoutItem"> <LogoutIcon className="sideBarIcon"/> <span>Logout</span></li>
                 </Link>
             </ul>

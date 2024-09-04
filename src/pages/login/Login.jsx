@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Box, FormHelperText } from '@mui/material';
 import './login.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let tempErrors = {};
@@ -21,7 +24,19 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle login
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in successfully
+          const user = userCredential.user;
+          console.log('Logged in as:', user.email);
+          navigate('/dashboard'); 
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error('Login error:', errorCode, errorMessage);
+          setErrors({ ...errors, password: 'Invalid credentials' });
+        });
     }
   };
 
