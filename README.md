@@ -41,6 +41,8 @@ Before running the project, you need to set up Firebase for authentication, Fire
 3. **Install Firebase:**
    - Run `npm install firebase` to install the Firebase SDK.
 
+4. **Install MUI:**
+   - Run `npm install @mui/material @emotion/react @emotion/styled` to install the MUI SDK.
 
 ## Available Scripts
 
