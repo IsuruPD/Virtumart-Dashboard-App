@@ -6,13 +6,9 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import BadgeIcon from '@mui/icons-material/Badge';
 import "./card.scss";
 
-const Card = ({type}) => {
+const Card = ({type, amount}) => {
 
     let data;
-
-    /////
-    const amount=100;
-    const diff=20;
 
     switch(type){
         case "users":
@@ -61,7 +57,6 @@ const Card = ({type}) => {
             <div className="right">
                 <div className="percentage positive">
                     <KeyboardArrowUpIcon/>
-                    {diff}%
                 </div>
                 {data.icon}
             </div>

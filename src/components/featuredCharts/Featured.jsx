@@ -1,50 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./featured.scss";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
+import { doc, getDoc } from 'firebase/firestore';
+import { firestore, auth } from '../../firebase';
+import profileImg from '../../assets/logoimg.png';
 
 const Featured = () => {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userDocRef = doc(firestore, 'employees', user.uid);
+          const userDoc = await getDoc(userDocRef);
+
+          if (userDoc.exists()) {
+            setUserData(userDoc.data());
+          } else {
+            console.error('User document not found');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <div className="featured">
       <div className="top">
-        <h1 className="title">Total Revenue</h1>
-        <MoreVertIcon fontSize="small" />
+        <h1 className="title">User Account</h1>
       </div>
       <div className="bottom">
         <div className="featuredChart">
-          <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
+          <img className="profileImage" src={userData?.profileImageUrl || `${profileImg}`} alt="User Profile" />
         </div>
-        <p className="title">Total sales made today</p>
-        <p className="amount">Rs. 999</p>
+        <p className="subTitle">{userData?.fullName || 'N/A'}</p>
+        <p className="empId">ID: {userData?.id || 'N/A'}</p>
+        <p className="role">({userData?.role || 'N/A'})</p>
         <p className="desc">
-          Only completed transactions are displayed. Processing payments may not be included.
         </p>
-        <div className="summary">
-          <div className="item">
-            <div className="itemTitle">Target</div>
-            <div className="itemResult negative">
-              <KeyboardArrowDownIcon fontSize="small"/>
-              <div className="resultAmount" >Rs.12.4k</div>
-            </div>
-          </div>
-          <div className="item">
-            <div className="itemTitle">Last Week</div>
-            <div className="itemResult positive">
-              <KeyboardArrowUpOutlinedIcon fontSize="small"/>
-              <div className="resultAmount">Rs.12.4k</div>
-            </div>
-          </div>
-          <div className="item">
-            <div className="itemTitle">Last Month</div>
-            <div className="itemResult positive">
-              <KeyboardArrowUpOutlinedIcon fontSize="small"/>
-              <div className="resultAmount">Rs.12.4k</div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

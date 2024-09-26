@@ -19,6 +19,7 @@ import AllOrders from './pages/orders/AllOrders';
 import CustomerSupport from './pages/support/CustomerSupport';
 import CustomerManagement from './pages/customers/customerManagement/CustomerManagement';
 import ProtectedRoute from './components/authentication/ProtectedRoute';
+import ReportGenerationModule from './pages/accounts/reports/ReportGenerationModule';
 
 function App() {
   return (
@@ -95,6 +96,7 @@ function App() {
                   <ProtectedRoute requiredRoles={['accountant', 'admin']}>
                     <Routes>
                       <Route path="" element={<AccountsManagement />} />
+                      <Route path="reports/" element={<ReportGenerationModule />} />
                       {/* <Route path="account" element={<SingleItem />} /> */}
                       <Route path="new" element={<NewItem inputs={productInputs} title="Add New Accounts" />} />
                     </Routes>

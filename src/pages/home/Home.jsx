@@ -14,20 +14,20 @@ const Home = () => {
 
         <div className="homeContainer">
           <NavBar/>
-            <div className="widgets">
-                <Card type="users"/>
-                <Card type="orders"/>
-                <Card type="analytics"/>
-                <Card type="employees"/>
+            <div className="widgets" >
+                <Card type="users" amount={24}/>
+                <Card type="orders" amount={23}/>
+                <Card type="analytics" amount={0}/>
+                <Card type="employees" amount={18}/>
             </div>
             <div className="charts">
               <Chart/>
               <Featured/>
             </div>
-            <div className="listContainer">
+            {/* <div className="listContainer">
               <div className="listTitle">Latest Transactions</div>
                 <Table/>
-            </div>
+            </div> */}
         </div>
     </div>
   )

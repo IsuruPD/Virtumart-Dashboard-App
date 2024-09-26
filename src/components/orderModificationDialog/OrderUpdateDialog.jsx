@@ -197,6 +197,7 @@ const OrderUpdateDialog = ({ open, onClose, order, onOrderUpdate }) => {
               <RadioGroup value={selectedStatus} onChange={handleStatusChange}>
                 <FormControlLabel value="Ordered" control={<Radio />} label="Pending" />
                 <FormControlLabel value="Shipped" control={<Radio />} label="Shipped" />
+                <FormControlLabel value="Delivered" control={<Radio />} label="Delivered" />
                 <FormControlLabel value="Complete" control={<Radio />} label="Complete" />
                 <FormControlLabel value="Cancelled" control={<Radio />} label="Cancelled" />
                 <FormControlLabel value="In Dispute" control={<Radio />} label="In Dispute" />

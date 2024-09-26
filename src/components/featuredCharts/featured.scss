@@ -29,15 +29,28 @@
       .featuredChart {
         width: 180px;
         height: 180px;
+        
+      }
+
+      .profileImage {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
       }
   
-      .title {
+      .subTitle {
+        font-size: 24px;
         font-weight: 500;
         color: gray;
       }
   
-      .amount {
-        font-size: 30px;
+      .empId {
+        font-size: 18px;
+      }
+      .role {
+        color:black;
+        font-size: 18px;
       }
   
       .desc {
@@ -45,37 +58,6 @@
         font-size: 12px;
         color: gray;
         text-align: center;
-      }
-  
-      .summary {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-  
-        .item {
-          text-align: center;
-  
-          .itemTitle {
-            font-size: 14px;
-            color: gray;
-          }
-  
-          .itemResult {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-            font-size: 14px;
-  
-            &.positive {
-              color: green;
-            }
-  
-            &.negative {
-              color: red;
-            }
-          }
-        }
       }
     }
   }

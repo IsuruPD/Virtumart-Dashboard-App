@@ -194,7 +194,7 @@ const AccountsManagement = () => {
                 <StatsCard title="Gross Products" value={grossProducts} />
                 <StatsCard title="Cancellations" value={`Rs. ${cancellations.toFixed(1)}`} />
               </div>
-              {/* <div className="chartContainer">
+              <div className="chartContainer">
                 <ResponsiveContainer width="100%" height={400}>
                   <LineChart data={salesData} margin={{
                       top: 0,
@@ -211,7 +211,7 @@ const AccountsManagement = () => {
                     <Line type="monotone" dataKey="growth" stroke="#82ca9d" />
                   </LineChart>
                 </ResponsiveContainer>
-              </div> */}
+              </div>
             </div>
           </div>
           
@@ -222,7 +222,7 @@ const AccountsManagement = () => {
              
                 <div style={{ marginBottom: '5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <p style={{ fontWeight: '600', color: '#404040', }}>Sales Analysis</p>
-                  <Link to="/customerManagementApp" className='chartNav'>
+                  <Link to="reports/" className='chartNav'>
                     <div className="editButton" style={{}}>See More</div>
                   </Link>
                 </div>
@@ -230,14 +230,14 @@ const AccountsManagement = () => {
                 <div style={{ paddingTop: '20px', overflowX: 'auto' }}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={6}>
-                      {/* <Paper style={{ padding: '10px', overflowX: 'auto' }}>
+                      <Paper style={{ padding: '10px', overflowX: 'auto' }}>
                         <TotalSalesChart/>
-                      </Paper> */}
+                      </Paper>
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                      {/* <Paper style={{ padding: '10px', overflowX: 'auto' }}>
+                      <Paper style={{ padding: '10px', overflowX: 'auto' }}>
                       <SalesByCategoryChart/>
-                      </Paper> */}
+                      </Paper>
                     </Grid>
                   </Grid>
                 </div>
@@ -248,7 +248,7 @@ const AccountsManagement = () => {
              
                 <div style={{ marginBottom: '5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <p style={{ fontWeight: '600', color: '#404040', }}>Products Analysis</p>
-                  <Link to="/customerManagementApp" className='chartNav'>
+                  <Link to="reports/" className='chartNav'>
                     <div className="editButton" style={{}}>See More</div>
                   </Link>
                 </div>
@@ -256,14 +256,14 @@ const AccountsManagement = () => {
                 <div style={{ paddingTop: '20px', overflowX: 'auto' }}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={6}>
-                      {/* <Paper style={{ padding: '20px', overflowX: 'auto' }}>
+                      <Paper style={{ padding: '20px', overflowX: 'auto' }}>
                         <TopSellingProducts/>
-                      </Paper> */}
+                      </Paper>
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                      {/* <Paper style={{ padding: '20px', overflowX: 'auto' }}>
+                      <Paper style={{ padding: '20px', overflowX: 'auto' }}>
                       <SalesInQuantityChart/>
-                      </Paper> */}
+                      </Paper>
                     </Grid>
                   </Grid>
                 </div>
@@ -274,7 +274,7 @@ const AccountsManagement = () => {
              
                 <div style={{ marginBottom: '5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <p style={{ fontWeight: '600', color: '#404040', }}>Growth Analysis</p>
-                  <Link to="/customerManagementApp" className='chartNav'>
+                  <Link to="reports/" className='chartNav'>
                     <div className="editButton" style={{}}>See More</div>
                   </Link>
                 </div>
@@ -282,9 +282,9 @@ const AccountsManagement = () => {
                 <div style={{ paddingTop: '20px'}}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={12} lg={12}>
-                      {/* <Paper style={{ padding: '20px', overflowX: 'auto' }}>
+                      <Paper style={{ padding: '20px', overflowX: 'auto' }}>
                         <SalesGrowth/>
-                      </Paper> */}
+                      </Paper>
                     </Grid>
                   </Grid>
                 </div>

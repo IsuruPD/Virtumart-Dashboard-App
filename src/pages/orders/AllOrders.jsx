@@ -76,7 +76,7 @@ const AllOrders = () => {
         if (activeTab === "pendingOrders") {
           ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Ordered"));
         } else if (activeTab === "shippedOrders") {
-          ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Shipped"));
+          ordersQuery = query(userOrdersRef, where("orderStatus", "in", ["Shipped", "Delivered"]));
         } else if (activeTab === "completedOrders") {
           ordersQuery = query(userOrdersRef, where("orderStatus", "==", "Complete"));
         } else if (activeTab === "disputeOrders") {
