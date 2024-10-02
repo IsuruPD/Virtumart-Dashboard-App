@@ -1,3 +1,7 @@
+*{
+    cursor: none;
+}
+
 .sideBar{
     flex: 1;
     border-right: 0.5px solid rgb(230, 227, 227);
@@ -49,7 +53,7 @@
                 display: flex;
                 align-items: center;
                 padding: 12px;
-                cursor: pointer;
+                // cursor: pointer;
                 color: rgb(85, 26, 139);
 
                 &:hover{

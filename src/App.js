@@ -20,6 +20,9 @@ import CustomerSupport from './pages/support/CustomerSupport';
 import CustomerManagement from './pages/customers/customerManagement/CustomerManagement';
 import ProtectedRoute from './components/authentication/ProtectedRoute';
 import ReportGenerationModule from './pages/accounts/reports/ReportGenerationModule';
+import UserProfile from './pages/userProfile/UserProfile'
+import DashboardSettings from './pages/settings/DashboardSettings'; 
+
 
 function App() {
   return (
@@ -100,6 +103,24 @@ function App() {
                       {/* <Route path="account" element={<SingleItem />} /> */}
                       <Route path="new" element={<NewItem inputs={productInputs} title="Add New Accounts" />} />
                     </Routes>
+                  </ProtectedRoute>
+                } 
+              />
+
+              <Route 
+                  path="settings/*" 
+                  element={
+                    <ProtectedRoute requiredRoles={['admin', 'inventory manager', 'customer support', 'accountant']}>
+                      <DashboardSettings />
+                    </ProtectedRoute>
+                  } 
+                />
+
+              <Route 
+                path="profile/*" 
+                element={
+                  <ProtectedRoute requiredRoles={['admin', 'inventory manager', 'customer support', 'accountant']}>
+                    <UserProfile />
                   </ProtectedRoute>
                 } 
               />
