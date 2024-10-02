@@ -1,11 +1,6 @@
-/*
-I need to make changes to its SCSS code given below in order to prevent any element from exceeding the width of the screen. 
-I have put a side bar to the left of the screen with flex 1 and all the content inside Customer Management should fit to the right with flex 6 and should not exceed the width of the screen.
-*/
-
 .customerManagement {
     display: flex;
-    width: 100vw; // Set width to 100% of viewport width
+    width: 100vw;
     overflow-x: hidden;
 
     .sideBar{
@@ -13,9 +8,8 @@ I have put a side bar to the left of the screen with flex 1 and all the content 
           .usersItem{
               background-color: rgb(220, 212, 255);
           }
-      }
-      
-  }
+      }   
+    }
 
     .customerManagementContainer {
       flex: 6;
